@@ -1,5 +1,6 @@
 package com.teamr.runardo.uaapstatscraper.controller;
 
+import com.teamr.runardo.uaapstatscraper.dto.ResponseDto;
 import com.teamr.runardo.uaapstatscraper.dto.UaapGame;
 import com.teamr.runardo.uaapstatscraper.dto.UaapSeason;
 import com.teamr.runardo.uaapstatscraper.dto.playerstat.PlayerStat;
@@ -53,7 +54,7 @@ public class GameScraperController {
     }
 
     @GetMapping("/update/game")
-    public ResponseEntity<UaapGame> scrapeAllGames(@Valid @RequestBody UaapSeason uaapSeason, @RequestParam Integer gameNumber) {
+    public ResponseEntity<UaapGame> scrapeGame(@Valid @RequestBody UaapSeason uaapSeason, @RequestParam Integer gameNumber) {
         UaapGame game = accountService.updateGame(uaapSeason, gameNumber);
 
         return ResponseEntity
@@ -61,3 +62,5 @@ public class GameScraperController {
                 .body(game);
     }
 }
+
+

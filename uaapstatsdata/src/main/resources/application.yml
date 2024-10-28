@@ -1,0 +1,22 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: "uaapstatsdata"
+  datasource:
+    url: "jdbc:mysql://localhost:3306/test"
+    username: springstudent
+    password: springstudent
+#  datasource:
+#    url: jdbc:h2:mem:testdb
+#    driverClassName: org.h2.Driver
+#    username: sa
+#    password: ''
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+#  sql:
+#    init:
+#      mode: never
