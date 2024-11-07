@@ -22,6 +22,7 @@ public class UaapSeasonMapper {
             uaapSeason.setUrlWork(false);
         }
 
+        uaapSeason.setId(String.valueOf(uaapSeasonDto.getSeasonNumber()).concat("-").concat(uaapSeasonDto.getGameCode().getGameCode()));
         return uaapSeason;
     }
 

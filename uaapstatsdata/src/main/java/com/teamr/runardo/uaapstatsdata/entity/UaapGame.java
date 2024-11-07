@@ -13,8 +13,8 @@ import java.util.List;
 public class UaapGame {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
 
     @Column(name = "game_number")
     private int gameNumber;
@@ -26,10 +26,10 @@ public class UaapGame {
     private String venue;
 
     @Column(name = "season_id")
-    private int seasonId;
+    private String seasonId;
 
-    @OneToMany(cascade = CascadeType.REMOVE
-            , fetch = FetchType.EAGER
+    @OneToMany(cascade = CascadeType.ALL
+            , fetch = FetchType.LAZY
     )
     @JoinColumn(name="game_id")
     private List<GameResult> gameResults;

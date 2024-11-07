@@ -10,7 +10,7 @@ import lombok.Data;
         name = "Uaap Game Result",
         description = "Schema to hold UAAP Game Result information"
 )
-public class GameResult {
+public class GameResultDto {
     @NotEmpty(message = "Id cannot be a null or empty")
     @Schema(description = "Game Result ID <seasonNum-gameCode-gameNum-univCode>", example = "87-MBB-1-UP")
     private String id;
@@ -29,7 +29,7 @@ public class GameResult {
 //    private List<PlayerStat> playerStats;
 
 
-    public GameResult(GameResultDtoBuilder gameResultDtoBuilder) {
+    public GameResultDto(GameResultDtoBuilder gameResultDtoBuilder) {
         this.id = gameResultDtoBuilder.id;
         this.univ = gameResultDtoBuilder.univ;
         this.teamTag = gameResultDtoBuilder.teamTag;
@@ -47,7 +47,7 @@ public class GameResult {
         public GameResultDtoBuilder() {
         }
 
-        public GameResultDtoBuilder setId(UaapGame gameDto, UaapSeason seasonDto) {
+        public GameResultDtoBuilder setId(UaapGameDto gameDto, UaapSeasonDto seasonDto) {
             this.id = String.join("-",
                     String.valueOf(seasonDto.getSeasonNumber()),
                     seasonDto.getGameCode().getGameCode(),
@@ -72,12 +72,12 @@ public class GameResult {
         }
 
         // Id created in build
-        public GameResult build() {
+        public GameResultDto build() {
 //            assert gameId != 0;
             assert univ != null;
             assert id != null;
 
-            return new GameResult(this);
+            return new GameResultDto(this);
         }
     }
 }

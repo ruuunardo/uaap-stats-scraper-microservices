@@ -5,15 +5,16 @@ import lombok.*;
 
 @Entity
 @Table(name = "uaap_game_results")
+@Data
 public class GameResult {
     @Id //<gameID-univCode>
     @Column(name = "id")
     private String id;
 
     @Column(name = "game_id")
-    private int gameId;
+    private String gameId;
 
-    @OneToOne()
+    @ManyToOne()
     @JoinColumn(name = "univ_id")
     private UaapUniv univ;
 

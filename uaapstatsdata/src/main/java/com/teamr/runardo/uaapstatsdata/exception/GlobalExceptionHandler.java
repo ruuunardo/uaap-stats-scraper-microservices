@@ -47,17 +47,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-//    @ExceptionHandler(CustomerAlreadyExistsException.class)
-//    public ResponseEntity<ErrorResponseDto> handleCustomerAlreadyExistsException(CustomerAlreadyExistsException exception,
-//                                                                                 WebRequest webRequest){
-//        ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
-//                webRequest.getDescription(false),
-//                HttpStatus.BAD_REQUEST,
-//                exception.getMessage(),
-//                LocalDateTime.now()
-//        );
-//        return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_REQUEST);
-//    }
+    @ExceptionHandler(UaapSeasonAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponseDto> handleCustomerAlreadyExistsException(UaapSeasonAlreadyExistsException exception,
+                                                                                 WebRequest webRequest){
+        ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
+                webRequest.getDescription(false),
+                HttpStatus.BAD_REQUEST,
+                exception.getMessage(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponseDto> handleCustomerAlreadyExistsException(ResourceNotFoundException exception,

@@ -1,5 +1,6 @@
-package com.teamr.runardo.uaapstatscraper.dto;
+package com.teamr.runardo.uaapdatawebapp.model.dto;
 
+import com.teamr.runardo.uaapdatawebapp.model.UaapGameCode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -11,7 +12,7 @@ import lombok.Data;
         name = "Uaap Season",
         description = "Schema to hold UAAP Season Game information"
 )
-public class UaapSeason {
+public class UaapSeasonDto {
 
     @Min(value = 1, message = "Season number should be a whole number (>0)")
     @Schema(

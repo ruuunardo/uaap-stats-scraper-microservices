@@ -1,8 +1,8 @@
 package com.teamr.runardo.uaapstatscraper.scraper;
 
-import com.teamr.runardo.uaapstatscraper.dto.GameResult;
-import com.teamr.runardo.uaapstatscraper.dto.UaapGame;
-import com.teamr.runardo.uaapstatscraper.dto.UaapSeason;
+import com.teamr.runardo.uaapstatscraper.dto.GameResultDto;
+import com.teamr.runardo.uaapstatscraper.dto.UaapGameDto;
+import com.teamr.runardo.uaapstatscraper.dto.UaapSeasonDto;
 import com.teamr.runardo.uaapstatscraper.dto.playerstat.PlayerStat;
 import com.teamr.runardo.uaapstatscraper.dto.playerstat.factory.PlayerStatsFactory;
 import com.teamr.runardo.uaapstatscraper.utility.UtilityClass;
@@ -19,16 +19,16 @@ import java.util.stream.Collectors;
 @Getter
 public abstract class GameScraper {
     protected Document document;
-    protected UaapSeason uaapSeason;
+    protected UaapSeasonDto uaapSeasonDto;
 
     /** Set document(using the URL)
      *
-     * @param uaapSeason season information of UAAP
+     * @param uaapSeasonDto season information of UAAP
      * @throws RuntimeException if can't connect to the server
      */
-    protected GameScraper(UaapSeason uaapSeason) throws IOException {
-        this.uaapSeason = uaapSeason;
-        this.document = UtilityClass.getGameDocument(uaapSeason.getUrl());
+    protected GameScraper(UaapSeasonDto uaapSeasonDto) throws IOException {
+        this.uaapSeasonDto = uaapSeasonDto;
+        this.document = UtilityClass.getGameDocument(uaapSeasonDto.getUrl());
     }
 
     protected GameScraper(){
@@ -38,34 +38,34 @@ public abstract class GameScraper {
      * <h6>Scrapes all Uaap Games</h2>
      * <ol>
      *  <li>Get game schedule elements from Document for list of UAAP Games extraction</li>
-     *  <li>Create {@code List} of {@link UaapGame}</li>
+     *  <li>Create {@code List} of {@link UaapGameDto}</li>
      *  <li>Iterate each element to extract each game data</li>
      *      <ol>
-     *          <li>Get {@link UaapGame} game number</li>
-     *          <li>Set {@code uaapSeasonId}({@link UaapSeason} {@code seasonNumber}-{@code gameCode})</li>
-     *          <li>Extract {@link GameResult}({@code home} and {@code away} teams) and map to each games</li>
-     *          <li>Add to created {@code List} of {@link UaapGame} </li>
+     *          <li>Get {@link UaapGameDto} game number</li>
+     *          <li>Set {@code uaapSeasonId}({@link UaapSeasonDto} {@code seasonNumber}-{@code gameCode})</li>
+     *          <li>Extract {@link GameResultDto}({@code home} and {@code away} teams) and map to each games</li>
+     *          <li>Add to created {@code List} of {@link UaapGameDto} </li>
      *      </ol>
      *  <li>Map additional data(venue and schedule) to each game</li>
      *
      * </ol>
-     * @return {@code List} of {@link UaapGame}
+     * @return {@code List} of {@link UaapGameDto}
      *
      */
-    public Optional<List<UaapGame>> scrapeAllGamesAndResults() {
+    public Optional<List<UaapGameDto>> scrapeAllGamesAndResults() {
         //Step1
         Elements gameScheds = getGameSchedElements(document);
 
         //Step2
-        List<UaapGame> games = new ArrayList<>();
+        List<UaapGameDto> games = new ArrayList<>();
 
         //Step3
         for (Element gameSched : gameScheds) {
             //Step3.1
-            UaapGame scrapedGame = getScrapeGame(gameSched);
+            UaapGameDto scrapedGame = getScrapeGame(gameSched);
             //Ste3.2
-            scrapedGame.setUaapSeasonId(uaapSeason.getSeasonNumber() + "-" + uaapSeason.getGameCode().getGameCode());
-            scrapedGame.setUrl(uaapSeason.getUrl());
+            scrapedGame.setUaapSeasonId(uaapSeasonDto.getSeasonNumber() + "-" + uaapSeasonDto.getGameCode().getGameCode());
+            scrapedGame.setUrl(uaapSeasonDto.getUrl());
 
             //Step3.3
             mapGameResultsToGame(gameSched, scrapedGame);
@@ -75,18 +75,18 @@ public abstract class GameScraper {
 //            break;
         }
 
-        HashMap<Integer, Integer> gameIdMap = extractGameNumGameIdMap();
-        for (UaapGame game : games) {
-            Integer gameNumWeb = gameIdMap.get(game.getGameNumber());
-            String urlStats = game.getUrl().replace(":id",  String.valueOf(gameNumWeb));
-            Document doc;
-            try {
-                doc = getDocumentStats(urlStats);
-            } catch (IOException e) {
-                continue;
-            }
-            addAdditionalGameData(doc, game);
-        }
+//        HashMap<Integer, Integer> gameIdMap = extractGameNumGameIdMap();
+//        for (UaapGameDto game : games) {
+//            Integer gameNumWeb = gameIdMap.get(game.getGameNumber());
+//            String urlStats = game.getUrl().replace(":id",  String.valueOf(gameNumWeb));
+//            Document doc;
+//            try {
+//                doc = getDocumentStats(urlStats);
+//            } catch (IOException e) {
+//                continue;
+//            }
+//            addAdditionalGameData(doc, game);
+//        }
 
         if (!games.isEmpty()) {
             return Optional.of(games);
@@ -107,27 +107,27 @@ public abstract class GameScraper {
      * @return {@link Element}
      *
      */
-    protected abstract UaapGame getScrapeGame(Element gameSched);
+    protected abstract UaapGameDto getScrapeGame(Element gameSched);
     /**
      * Step 3.1 in {@link #scrapeAllGamesAndResults()}
      *
      */
-    protected abstract void mapGameResultsToGame(Element gameSched, UaapGame scrapeGame);
+    protected abstract void mapGameResultsToGame(Element gameSched, UaapGameDto scrapeGame);
 
 
-    public UaapGame updateAdditionalData(int gameNum) {
-        List<UaapGame> uaapGameDtos = scrapeAllGamesAndResults().orElseThrow(
-                () -> new RuntimeException(String.format("No game data found: %s", uaapSeason.getUrl()))
+    public UaapGameDto updateAdditionalData(int gameNum) {
+        List<UaapGameDto> uaapGameDtoDtos = scrapeAllGamesAndResults().orElseThrow(
+                () -> new RuntimeException(String.format("No game data found: %s", uaapSeasonDto.getUrl()))
         );
 
-        UaapGame uaapGameDto = uaapGameDtos.stream().filter(g -> g.getGameNumber() == gameNum).findFirst().orElseThrow(
+        UaapGameDto uaapGameDto = uaapGameDtoDtos.stream().filter(g -> g.getGameNumber() == gameNum).findFirst().orElseThrow(
                 () -> new RuntimeException(String.format("No game data found of game number: %s", gameNum))
         );
 
         //map of UaapGameDb gameNumber and server gameNumber
         HashMap<Integer, Integer> gameIdMap = extractGameNumGameIdMap();
         Integer gameNumWeb = gameIdMap.get(gameNum);
-        String urlStats = uaapSeason.getUrl().replace(":id",  String.valueOf(gameNumWeb));
+        String urlStats = uaapSeasonDto.getUrl().replace(":id",  String.valueOf(gameNumWeb));
 
         try {
             Document doc = getDocumentStats(urlStats);
@@ -140,25 +140,25 @@ public abstract class GameScraper {
     }
 
     public HashMap<String, List<PlayerStat>> scrapeAllPlayerStatsfromGame(int gamuNum) {
-        List<UaapGame> uaapGameDtos = scrapeAllGamesAndResults().orElseThrow(
-                () -> new RuntimeException(String.format("No game data found: %s", uaapSeason.getUrl()))
+        List<UaapGameDto> uaapGameDtoDtos = scrapeAllGamesAndResults().orElseThrow(
+                () -> new RuntimeException(String.format("No game data found: %s", uaapSeasonDto.getUrl()))
         );
 
-        UaapGame uaapGameDto = uaapGameDtos.stream().filter(g -> g.getGameNumber() == gamuNum).findFirst().orElseThrow(
+        UaapGameDto uaapGameDto = uaapGameDtoDtos.stream().filter(g -> g.getGameNumber() == gamuNum).findFirst().orElseThrow(
                 () -> new RuntimeException(String.format("No game data found of game number: %s", gamuNum))
         );
 
         //map of UaapGameDb gameNumber and server gameNumber
         HashMap<Integer, Integer> gameIdMap = extractGameNumGameIdMap();
         Integer gameNumWeb = gameIdMap.get(gamuNum);
-        String urlStats = uaapSeason.getUrl().replace(":id",  String.valueOf(gameNumWeb));
+        String urlStats = uaapSeasonDto.getUrl().replace(":id",  String.valueOf(gameNumWeb));
 
         try {
             Document doc = getDocumentStats(urlStats);
             HashMap<String, List<PlayerStat>> playerStatsMap = new HashMap<>();
-            for (GameResult gameResult : uaapGameDto.getGameResults()) {
-                List<PlayerStat> playerStats = scrapePlayerStats(gameResult, doc);
-                playerStatsMap.put(gameResult.getId(), playerStats);
+            for (GameResultDto gameResultDto : uaapGameDto.getGameResultDtos()) {
+                List<PlayerStat> playerStats = scrapePlayerStats(gameResultDto, doc);
+                playerStatsMap.put(gameResultDto.getId(), playerStats);
             }
             return playerStatsMap;
         } catch (IOException e) {
@@ -170,12 +170,12 @@ public abstract class GameScraper {
 
     //    ------------------- SCRAPE STATS FOR EACH GAME ----------------------//
     //Scrape stats for each game
-    public List<PlayerStat> scrapePlayerStats(GameResult gameResult, Document doc){
+    public List<PlayerStat> scrapePlayerStats(GameResultDto gameResultDto, Document doc){
         //Player stats table BODY elements (HOME, AWAY) - should be size 2
         Elements playerStatTables = getTableBodyElements(doc);
 
         //--get table element if Home or Away (index0-> Home, index1-> Away)
-        Element teamTableElement = "HOME".equals(gameResult.getTeamTag()) ? playerStatTables.get(0) : playerStatTables.get(1);
+        Element teamTableElement = "HOME".equals(gameResultDto.getTeamTag()) ? playerStatTables.get(0) : playerStatTables.get(1);
 
         //--get all row elements and convert to csv list
         List<String> playerStatCsvList = teamTableElement.select("tr")
@@ -190,12 +190,12 @@ public abstract class GameScraper {
                 .toList();
 
         //extract player stats
-        List<PlayerStat> playerStatList = getPlayerStatList(playerStatCsvList, gameResult, getPlayerStatsFactory());
+        List<PlayerStat> playerStatList = getPlayerStatList(playerStatCsvList, gameResultDto, getPlayerStatsFactory());
 
         return playerStatList;
     }
 
-    protected abstract List<PlayerStat> getPlayerStatList(List<String> playerStatCsvList, GameResult gameResult, PlayerStatsFactory playerStatsFactory);
+    protected abstract List<PlayerStat> getPlayerStatList(List<String> playerStatCsvList, GameResultDto gameResultDto, PlayerStatsFactory playerStatsFactory);
 
     protected abstract Elements getTableBodyElements(Document gameDocument);
 
@@ -207,11 +207,11 @@ public abstract class GameScraper {
 
     public abstract HashMap<Integer, Integer> extractGameNumGameIdMap();
 
-    public abstract void addAdditionalGameData(Document doc, UaapGame game);
+    public abstract void addAdditionalGameData(Document doc, UaapGameDto game);
 
     //    for getting stats (will try to fetch 3 times with 1 second of waiting time)
     private Document getDocumentStats(String urlStats) throws IOException {
-        int maxAttempt = 3;
+        int maxAttempt = 5;
         int i = 0;
         Document doc;
         while (true) {
@@ -223,7 +223,7 @@ public abstract class GameScraper {
                     if (i < 3) {
                         ++i;
                         try {
-                            Thread.sleep(1000 * 1);
+                            Thread.sleep(2000 * 1);
                         } catch (InterruptedException ex) {
                             throw new RuntimeException(ex);
                         }
@@ -236,17 +236,17 @@ public abstract class GameScraper {
     }
 
     //------------------- SIMPLE FACTORY ----------------------////
-    public static GameScraper gameScraperFactory(UaapSeason uaapSeason)  {
-        String gameCode = uaapSeason.getGameCode().getGameCode();
+    public static GameScraper gameScraperFactory(UaapSeasonDto uaapSeasonDto)  {
+        String gameCode = uaapSeasonDto.getGameCode().getGameCode();
         if (gameCode.endsWith("BB")) {
             try {
-                return new BballGameScraper(uaapSeason);
+                return new BballGameScraper(uaapSeasonDto);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         } else if (gameCode.endsWith("VB")) {
             try {
-                return new VballGameScraper(uaapSeason);
+                return new VballGameScraper(uaapSeasonDto);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

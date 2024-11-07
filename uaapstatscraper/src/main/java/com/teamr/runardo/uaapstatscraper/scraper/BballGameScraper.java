@@ -1,8 +1,8 @@
 package com.teamr.runardo.uaapstatscraper.scraper;
 
-import com.teamr.runardo.uaapstatscraper.dto.GameResult;
-import com.teamr.runardo.uaapstatscraper.dto.UaapGame;
-import com.teamr.runardo.uaapstatscraper.dto.UaapSeason;
+import com.teamr.runardo.uaapstatscraper.dto.GameResultDto;
+import com.teamr.runardo.uaapstatscraper.dto.UaapGameDto;
+import com.teamr.runardo.uaapstatscraper.dto.UaapSeasonDto;
 import com.teamr.runardo.uaapstatscraper.dto.UaapTeam;
 import com.teamr.runardo.uaapstatscraper.dto.playerstat.factory.BballPlayerStatFactory;
 import com.teamr.runardo.uaapstatscraper.dto.playerstat.PlayerStat;
@@ -20,8 +20,8 @@ import java.util.List;
 
 
 public class BballGameScraper extends GameScraper {
-    protected BballGameScraper(UaapSeason uaapSeason) throws IOException {
-        super(uaapSeason);
+    protected BballGameScraper(UaapSeasonDto uaapSeasonDto) throws IOException {
+        super(uaapSeasonDto);
     }
 
     @Override
@@ -33,26 +33,26 @@ public class BballGameScraper extends GameScraper {
     }
 
     @Override
-    protected UaapGame getScrapeGame(Element gameSched) {
+    protected UaapGameDto getScrapeGame(Element gameSched) {
         int gameNum = Integer.parseInt(gameSched.attr("href").split("/+")[4]);  //"match 1" get match number 1
 
-        UaapGame uaapGameDto = new UaapGame();
+        UaapGameDto uaapGameDto = new UaapGameDto();
         uaapGameDto.setGameNumber(gameNum);
         return uaapGameDto;
     }
 
     @Override
-    protected void mapGameResultsToGame(Element gameSched, UaapGame game) {
+    protected void mapGameResultsToGame(Element gameSched, UaapGameDto game) {
         Elements schedTeams = gameSched.select(".scheduled-team");
 
-        GameResult homeTeam = extractGameResult(game, schedTeams, "HOME");
-        GameResult awayTeam = extractGameResult(game, schedTeams, "AWAY");
+        GameResultDto homeTeam = extractGameResult(game, schedTeams, "HOME");
+        GameResultDto awayTeam = extractGameResult(game, schedTeams, "AWAY");
 
-        game.setGameResults(List.of(homeTeam, awayTeam));
+        game.setGameResultDtos(List.of(homeTeam, awayTeam));
     }
 
 
-    private GameResult extractGameResult(UaapGame scrapeGame, Elements schedTeams, String teamTag) {
+    private GameResultDto extractGameResult(UaapGameDto scrapeGame, Elements schedTeams, String teamTag) {
         int index = "HOME".equals(teamTag) ? 0 : 1;
         String data = schedTeams.get(index).text().replaceAll("\\s+", "").toUpperCase();
         String[] splitStr = data.split("(?<=\\D)(?=\\d)");
@@ -60,17 +60,17 @@ public class BballGameScraper extends GameScraper {
         UaapTeam uaapTeam = UaapTeam.parse(splitStr[0]);
         int finalScore = Integer.parseInt(splitStr[1]);
 
-        GameResult build = new GameResult.GameResultDtoBuilder()
+        GameResultDto build = new GameResultDto.GameResultDtoBuilder()
                 .setTeamTag(teamTag)
                 .setFinalScore(finalScore)
                 .setUniv(UaapTeam.uaapUnivFactory(uaapTeam))
-                .setId(scrapeGame, uaapSeason)
+                .setId(scrapeGame, uaapSeasonDto)
                 .build();
         return build;
     }
 
     @Override
-    public void addAdditionalGameData(Document doc, UaapGame game) {
+    public void addAdditionalGameData(Document doc, UaapGameDto game) {
         Elements elements = doc.select("div#game-details div.game-detail span");
         String venue = elements.get(1).text();
 
@@ -92,7 +92,7 @@ public class BballGameScraper extends GameScraper {
     }
 
     @Override
-    protected List<PlayerStat> getPlayerStatList(List<String> playerStatCsvList, GameResult gameResult, PlayerStatsFactory playerStatsFactory) {
+    protected List<PlayerStat> getPlayerStatList(List<String> playerStatCsvList, GameResultDto gameResultDto, PlayerStatsFactory playerStatsFactory) {
         boolean isFirstFive = "".equals(playerStatCsvList.get(6));
         List<PlayerStat> playerStatList = new ArrayList<>();
 
@@ -104,7 +104,7 @@ public class BballGameScraper extends GameScraper {
             }
             lineData = isFirstFive ? "*".concat(lineData) : lineData;
 
-            PlayerStat playerStat = playerStatsFactory.parse(gameResult, lineData).orElseThrow(
+            PlayerStat playerStat = playerStatsFactory.parse(gameResultDto, lineData).orElseThrow(
                     () -> new RuntimeException("Cannot parse player data")
             );
 
