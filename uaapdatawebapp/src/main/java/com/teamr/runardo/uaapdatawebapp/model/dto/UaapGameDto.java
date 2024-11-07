@@ -1,4 +1,4 @@
-package com.teamr.runardo.uaapstatscraper.dto;
+package com.teamr.runardo.uaapdatawebapp.model.dto;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -9,13 +9,14 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Schema(
         name = "Uaap Game",
         description = "Schema to hold UAAP Game information"
 )
-public class UaapGame {
+public class UaapGameDto {
     @Schema(
             description = "Game number based on order of games", example = "1"
     )
@@ -23,11 +24,17 @@ public class UaapGame {
     @Min(value = 1, message = "Game number should be greater than 1")
     private int gameNumber;
 
+    @Schema(
+            description = "Game schedule (date and time)"
+    )
     private LocalDateTime gameSched;
 
+    @Schema(
+            description = "Game venue of game", example = "MOA arena"
+    )
     private String venue;
 
-    private List<GameResult> gameResults;
+    private List<GameResultDto> gameResultDtos;
 
     @Schema(description = "Id of game season", example = "87-MBB" )
     @NotEmpty(message = "SeasonId can not be a null or empty")
@@ -36,4 +43,17 @@ public class UaapGame {
     @Schema(description = "URL for the data source", example = "https://uaap.livestats.ph/tournaments/uaap-season-87-men-s?game_id=:id")
     @Pattern(regexp="^(http)s?.*:id.*",message = "URL must have an 'id' parameter ")
     private String url;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UaapGameDto that = (UaapGameDto) o;
+        return gameNumber == that.gameNumber  && Objects.equals(uaapSeasonId, that.uaapSeasonId) && Objects.equals(url, that.url);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(gameNumber, gameResultDtos, uaapSeasonId, url);
+    }
 }

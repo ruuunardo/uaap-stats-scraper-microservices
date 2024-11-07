@@ -1,10 +1,9 @@
 package com.teamr.runardo.uaapstatsdata.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name="uaap_seasons")
@@ -12,8 +11,8 @@ import java.util.Objects;
 public class UaapSeason {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+//    "87-MBB"
+    private String id;
 
     @Column(name = "season_number")
     private int seasonNumber;
@@ -27,4 +26,8 @@ public class UaapSeason {
 
     @Column(name = "is_url_working")
     private boolean urlWork;
+
+    @OneToMany(cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "season_id")
+    private List<UaapGame> uaapGames;
 }

@@ -1,7 +1,7 @@
 package com.teamr.runardo.uaapstatscraper.service.impl;
 
-import com.teamr.runardo.uaapstatscraper.dto.UaapGame;
-import com.teamr.runardo.uaapstatscraper.dto.UaapSeason;
+import com.teamr.runardo.uaapstatscraper.dto.UaapGameDto;
+import com.teamr.runardo.uaapstatscraper.dto.UaapSeasonDto;
 import com.teamr.runardo.uaapstatscraper.dto.playerstat.PlayerStat;
 import com.teamr.runardo.uaapstatscraper.scraper.GameScraper;
 import com.teamr.runardo.uaapstatscraper.service.IGameScraperService;
@@ -9,30 +9,40 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class GameScraperImpl implements IGameScraperService {
 
     @Override
-    public List<UaapGame> getAllGames(UaapSeason uaapSeason) {
-        GameScraper gameScraper = GameScraper.gameScraperFactory(uaapSeason);
-        List<UaapGame> uaapGameDtos = gameScraper.scrapeAllGamesAndResults().orElseThrow(
-                () -> new RuntimeException(String.format("No game data found: %s", uaapSeason.getUrl()))
+    public List<UaapGameDto> getAllGames(UaapSeasonDto uaapSeasonDto) {
+        GameScraper gameScraper = GameScraper.gameScraperFactory(uaapSeasonDto);
+        List<UaapGameDto> uaapGameDtoDtos = gameScraper.scrapeAllGamesAndResults().orElseThrow(
+                () -> new RuntimeException(String.format("No game data found: %s", uaapSeasonDto.getUrl()))
         );
-        return uaapGameDtos;
+        return uaapGameDtoDtos;
     }
 
     @Override
-    public HashMap<String, List<PlayerStat>> getUaapGamePlayerStats(UaapSeason uaapSeason, Integer gameNumber) {
-        GameScraper gameScraper = GameScraper.gameScraperFactory(uaapSeason);
+    public HashMap<String, List<PlayerStat>> getUaapGamePlayerStats(UaapSeasonDto uaapSeasonDto, Integer gameNumber) {
+        GameScraper gameScraper = GameScraper.gameScraperFactory(uaapSeasonDto);
         HashMap<String, List<PlayerStat>> stringListHashMap = gameScraper.scrapeAllPlayerStatsfromGame(gameNumber);
         return stringListHashMap;
     }
 
+
     @Override
-    public UaapGame updateGame(UaapSeason uaapSeason, Integer gameNumber) {
-        GameScraper gameScraper = GameScraper.gameScraperFactory(uaapSeason);
-        UaapGame uaapGame = gameScraper.updateAdditionalData(gameNumber);
-        return uaapGame;
+    public UaapGameDto updateGame(UaapSeasonDto uaapSeasonDto, Integer gameNumber) {
+        GameScraper gameScraper = GameScraper.gameScraperFactory(uaapSeasonDto);
+        UaapGameDto uaapGameDto = gameScraper.updateAdditionalData(gameNumber);
+        return uaapGameDto;
     }
+
+    @Override
+    public List<PlayerStat> getUaapGamePlayerStatsTest(UaapSeasonDto uaapSeasonDto, Integer gameNumber) {
+        HashMap<String, List<PlayerStat>> playerStats = getUaapGamePlayerStats(uaapSeasonDto, gameNumber);
+        List<PlayerStat> stats = playerStats.values().stream().flatMap(List::stream).toList();
+        return stats;
+    }
+
 }

@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface UaapSeasonRepository extends JpaRepository<UaapSeason, Integer>, CustomUaapSeasonRepository {
+public interface UaapSeasonRepository extends JpaRepository<UaapSeason, String>, CustomUaapSeasonRepository {
     @Query(
             value = "select s from UaapSeason s where s.seasonNumber=:seasonNum and s.gameCode.gameCode=:gameCode"
     )

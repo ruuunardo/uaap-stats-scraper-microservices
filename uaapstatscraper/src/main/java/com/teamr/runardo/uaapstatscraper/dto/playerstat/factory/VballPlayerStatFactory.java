@@ -1,6 +1,6 @@
 package com.teamr.runardo.uaapstatscraper.dto.playerstat.factory;
 
-import com.teamr.runardo.uaapstatscraper.dto.GameResult;
+import com.teamr.runardo.uaapstatscraper.dto.GameResultDto;
 import com.teamr.runardo.uaapstatscraper.dto.Player;
 import com.teamr.runardo.uaapstatscraper.dto.playerstat.PlayerStat;
 import com.teamr.runardo.uaapstatscraper.dto.playerstat.VballPlayerStat;
@@ -9,20 +9,20 @@ import java.util.Optional;
 
 public class VballPlayerStatFactory implements PlayerStatsFactory {
     @Override
-    public Optional<PlayerStat> parse(GameResult gameResult, String playerStatStr) {
+    public Optional<PlayerStat> parse(GameResultDto gameResultDto, String playerStatStr) {
         //    ""5,Kennedy Batas,19 / 38,2 / 13,1 / 15,5 / 14,0 / 0,0 / 2""
 
         //split inline stat
         String[] splitStat = playerStatStr.split(",\\s*");
 
         //extract player details
-        int univId = gameResult.getUniv().getId();
+        int univId = gameResultDto.getUniv().getId();
         String playerNumber = splitStat[0];
         String playerName = splitStat[1];
 
         //create player
         Player extractedPlayer = Player.builder()
-                .id(generateId(gameResult, playerNumber))
+                .id(generatePlayerId(gameResultDto, playerNumber))
                 .name(playerName)
                 .univId(univId)
                 .build();
@@ -43,7 +43,7 @@ public class VballPlayerStatFactory implements PlayerStatsFactory {
                 .receiveAttempt(Integer.parseInt(splitStat[6].split(regex)[1]))
                 .setMade(Integer.parseInt(splitStat[7].split(regex)[0]))
                 .setAttempt(Integer.parseInt(splitStat[7].split(regex)[1]))
-                .gameResultId(gameResult.getId())
+                .gameResultId(gameResultDto.getId())
                 .build();
 
         if (playerStatStr.isBlank())

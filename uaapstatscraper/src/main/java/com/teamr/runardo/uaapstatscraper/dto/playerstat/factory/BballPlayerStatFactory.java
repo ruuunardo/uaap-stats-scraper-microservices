@@ -1,6 +1,6 @@
 package com.teamr.runardo.uaapstatscraper.dto.playerstat.factory;
 
-import com.teamr.runardo.uaapstatscraper.dto.GameResult;
+import com.teamr.runardo.uaapstatscraper.dto.GameResultDto;
 import com.teamr.runardo.uaapstatscraper.dto.Player;
 import com.teamr.runardo.uaapstatscraper.dto.playerstat.BballPlayerStat;
 import com.teamr.runardo.uaapstatscraper.dto.playerstat.PlayerStat;
@@ -11,18 +11,18 @@ import java.util.Optional;
 
 public class BballPlayerStatFactory implements PlayerStatsFactory {
     @Override
-    public Optional<PlayerStat> parse(GameResult gameResult, String playerStatStr) {
+    public Optional<PlayerStat> parse(GameResultDto gameResultDto, String playerStatStr) {
         //split inline stat
         String[] splitStat = playerStatStr.split(",\\s*");
 
         //extract player details
-        int univId = gameResult.getUniv().getId();
+        int univId = gameResultDto.getUniv().getId();
         String playerNumber = splitStat[0].replace("*", "");
         String playerName = splitStat[1];
 
         //create player
         Player extractedPlayer = Player.builder()
-                .id(generateId(gameResult, playerNumber))
+                .id(generatePlayerId(gameResultDto, playerNumber))
                 .name(playerName)
                 .univId(univId)
                 .build();
@@ -51,7 +51,7 @@ public class BballPlayerStatFactory implements PlayerStatsFactory {
                 .foulsFD(Integer.parseInt(splitStat[21]))
                 .efficiency(Integer.parseInt(splitStat[22]))
                 .isFirstFive(splitStat[0].startsWith("*") ? 1 : 0)
-                .gameResultId(gameResult.getId())
+                .gameResultId(gameResultDto.getId())
                 .build();
 
         if (playerStatStr.isBlank())
