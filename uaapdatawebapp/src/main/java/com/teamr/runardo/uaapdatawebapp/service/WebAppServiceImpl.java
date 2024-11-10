@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -45,7 +46,9 @@ public class WebAppServiceImpl implements WebAppService{
     @Override
     public UaapSeason findUaapSeasonById(String id) {
         ResponseEntity<UaapSeason> uaapSeasonResponseEntity = uaapDataClient.fetchUaapSeasonById(id);
-        return uaapSeasonResponseEntity.getBody();
+        UaapSeason uaapSeason = uaapSeasonResponseEntity.getBody();
+        Collections.sort(uaapSeason.getUaapGames(), Collections.reverseOrder());
+        return uaapSeason;
     }
 
     @Override

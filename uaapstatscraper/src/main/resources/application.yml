@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: "uaapstatscraper"
+  config:
+    import: "optional:configserver:http://localhost:8071/"
 
 management:
   endpoints:

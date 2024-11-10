@@ -10,7 +10,7 @@ spring:
     config:
       server:
         git:
-          uri: "https://github.com/ruuunardo/udemy-microservice-configrepo"
+          uri: "https://github.com/ruuunardo/uaap-stats-scraper-config"
           default-label: main
           timeout: 5
           clone-on-start: true

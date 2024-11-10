@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: "uaapdatawebapp"
+  config:
+    import: "optional:configserver:http://localhost:8071/"
 
 management:
   endpoints:
@@ -22,15 +24,15 @@ endpoints:
     enabled: true
 
 
-#EUREKA-SERVICE REGISTRY
-eureka:
-  instance:
-    preferIpAddress: true
-  client:
-    fetchRegistry: true
-    registerWithEureka: true
-    serviceUrl:
-      defaultZone: http://localhost:8070/eureka/
+##EUREKA-SERVICE REGISTRY
+#eureka:
+#  instance:
+#    preferIpAddress: true
+#  client:
+#    fetchRegistry: true
+#    registerWithEureka: true
+#    serviceUrl:
+#      defaultZone: http://localhost:8070/eureka/
 
 info:
   app:

@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: "uaapstatsdata"
+  config:
+    import: "optional:configserver:http://localhost:8071/"
   datasource:
     url: "jdbc:mysql://localhost:3306/test"
     username: springstudent
@@ -39,18 +41,18 @@ endpoints:
     enabled: true
 
 
-#EUREKA-SERVICE REGISTRY
-eureka:
-  instance:
-    preferIpAddress: true
-  client:
-    fetchRegistry: true
-    registerWithEureka: true
-    serviceUrl:
-      defaultZone: http://localhost:8070/eureka/
+##EUREKA-SERVICE REGISTRY
+#eureka:
+#  instance:
+#    preferIpAddress: true
+#  client:
+#    fetchRegistry: true
+#    registerWithEureka: true
+#    serviceUrl:
+#      defaultZone: http://localhost:8070/eureka/
 
 info:
   app:
     name: "uaapstatsdata"
-    description: "Eazybank accounts application"
+    description: "UAAP Data Scraper data"
     version: "1.0.0"

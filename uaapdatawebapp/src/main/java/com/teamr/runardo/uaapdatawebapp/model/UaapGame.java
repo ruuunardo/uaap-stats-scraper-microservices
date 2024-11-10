@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Data
-public class UaapGame {
+public class UaapGame implements Comparable<UaapGame> {
     private String id;
 
     private int gameNumber;
@@ -32,5 +32,11 @@ public class UaapGame {
     @Override
     public int hashCode() {
         return Objects.hash(id, gameNumber, gameSched, venue, seasonId, gameResults);
+    }
+
+
+    @Override
+    public int compareTo(UaapGame o) {
+        return Integer.compare(this.gameNumber, o.gameNumber);
     }
 }

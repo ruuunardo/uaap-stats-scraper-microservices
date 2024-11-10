@@ -41,8 +41,8 @@ public class GameScraperController {
     }
 
     @Operation(
-            summary = "Create Account REST API",
-            description = "REST API to create new Customer &  Account inside EazyBank"
+            summary = "Scrape UAAP Games REST API",
+            description = "REST API to scrape UAAP Games from stats website"
     )
     @ApiResponses({
             @ApiResponse(
@@ -62,21 +62,12 @@ public class GameScraperController {
     @PostMapping("/scrape/game")
     public ResponseEntity<List<UaapGameDto>> scrapeAllGames(@Valid @RequestBody UaapSeasonDto uaapSeasonDto) {
         List<UaapGameDto> allGames = accountService.getAllGames(uaapSeasonDto);
-        System.out.println(allGames.get(0));
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(allGames);
     }
 
-    @PostMapping("/scrape/test")
-    public ResponseEntity<List<UaapGameDto>> scrapeAllGamesBy(@Valid @RequestBody UaapSeasonDto uaapSeasonDto) {
-        List<UaapGameDto> allGames = accountService.getAllGames(uaapSeasonDto);
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(allGames);
-    }
 
     @PostMapping(value = "/scrape/stats/BB")
     public ResponseEntity<HashMap<String, List<PlayerStat>>> scrapeGameStatBball(@Valid @RequestBody UaapSeasonDto uaapSeasonDto, @RequestParam Integer gameNumber) {

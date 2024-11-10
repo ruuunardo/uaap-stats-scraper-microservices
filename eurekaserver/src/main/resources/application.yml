@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: "eurekaserver"
+  config:
+    import: "optional:configserver:http://localhost:8071/"
 
 management:
   endpoints:
@@ -20,11 +22,11 @@ management:
       probes:
         enabled: true
 
-eureka:
-  instance:
-    hostname: localhost
-  client:
-    fetchRegistry: false
-    registerWithEureka: false
-    serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+#eureka:
+#  instance:
+#    hostname: localhost
+#  client:
+#    fetchRegistry: false
+#    registerWithEureka: false
+#    serviceUrl:
+#      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
