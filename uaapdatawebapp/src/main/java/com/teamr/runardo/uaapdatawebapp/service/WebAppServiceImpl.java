@@ -80,19 +80,19 @@ public class WebAppServiceImpl implements WebAppService{
         for (UaapGameDto gameDto : uaapGamesMissing) {
             uaapDataClient.updateUaapGame(gameDto);
             extractAndSavePlayerStats(gameDto, uaapSeasonDto);
-//            break;
+            break;
         }
     }
 
     private void extractAndSavePlayerStats(UaapGameDto g, UaapSeasonDto uaapSeasonDto) {
         String gameCode = uaapSeasonDto.getGameCode().getGameCode();
         if (gameCode.endsWith("BB")) {
-            HashMap<String, List<BballPlayerStat>> hashMap = gameScraperClient.scrapeGameStatBball(uaapSeasonDto, g.getGameNumber()).getBody();
-            List<BballPlayerStat> playerStats = hashMap.values().stream().flatMap(List::stream).toList();
+            HashMap<String, List<? extends PlayerStat>> hashMap = gameScraperClient.scrapeGameStat(uaapSeasonDto, g.getGameNumber()).getBody();
+            List<BballPlayerStat> playerStats = (List<BballPlayerStat>) hashMap.values().stream().flatMap(List::stream).toList();
             uaapDataClient.createUaapStatsBball(playerStats);
         } else if (gameCode.endsWith("VB")) {
-            HashMap<String, List<VballPlayerStat>> hashMap = gameScraperClient.scrapeGameStatVball(uaapSeasonDto, g.getGameNumber()).getBody();
-            List<VballPlayerStat> playerStats = hashMap.values().stream().flatMap(List::stream).toList();
+            HashMap<String, List<? extends PlayerStat>> hashMap = gameScraperClient.scrapeGameStat(uaapSeasonDto, g.getGameNumber()).getBody();
+            List<VballPlayerStat> playerStats = (List<VballPlayerStat>) hashMap.values().stream().flatMap(List::stream).toList();
             uaapDataClient.createUaapStatsVball(playerStats);
         } else {
             throw new RuntimeException("Game Code not supported: " + gameCode);

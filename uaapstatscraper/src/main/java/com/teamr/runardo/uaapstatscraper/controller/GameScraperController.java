@@ -69,17 +69,26 @@ public class GameScraperController {
     }
 
 
-    @PostMapping(value = "/scrape/stats/BB")
-    public ResponseEntity<HashMap<String, List<PlayerStat>>> scrapeGameStatBball(@Valid @RequestBody UaapSeasonDto uaapSeasonDto, @RequestParam Integer gameNumber) {
-        HashMap<String, List<PlayerStat>> playerStats = accountService.getUaapGamePlayerStats(uaapSeasonDto, gameNumber);
+//    @PostMapping(value = "/scrape/stats/BB")
+//    public ResponseEntity<HashMap<String, List<PlayerStat>>> scrapeGameStatBball(@Valid @RequestBody UaapSeasonDto uaapSeasonDto, @RequestParam Integer gameNumber) {
+//        HashMap<String, List<PlayerStat>> playerStats = accountService.getUaapGamePlayerStats(uaapSeasonDto, gameNumber);
+//
+//        return ResponseEntity
+//                .status(HttpStatus.OK)
+//                .body(playerStats);
+//    }
+//
+//    @PostMapping(value = "/scrape/stats/VB")
+//    public ResponseEntity<HashMap<String, List<PlayerStat>>> scrapeGameStatVball(@Valid @RequestBody UaapSeasonDto uaapSeasonDto, @RequestParam Integer gameNumber) {
+//        HashMap<String, List<PlayerStat>> playerStats = accountService.getUaapGamePlayerStats(uaapSeasonDto, gameNumber);
+//
+//        return ResponseEntity
+//                .status(HttpStatus.OK)
+//                .body(playerStats);
+//    }
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(playerStats);
-    }
-
-    @PostMapping(value = "/scrape/stats/VB")
-    public ResponseEntity<HashMap<String, List<PlayerStat>>> scrapeGameStatVball(@Valid @RequestBody UaapSeasonDto uaapSeasonDto, @RequestParam Integer gameNumber) {
+    @PostMapping(value = "/scrape/stats")
+    public ResponseEntity<HashMap<String, List<PlayerStat>>> scrapeGameStat(@Valid @RequestBody UaapSeasonDto uaapSeasonDto, @RequestParam Integer gameNumber) {
         HashMap<String, List<PlayerStat>> playerStats = accountService.getUaapGamePlayerStats(uaapSeasonDto, gameNumber);
 
         return ResponseEntity

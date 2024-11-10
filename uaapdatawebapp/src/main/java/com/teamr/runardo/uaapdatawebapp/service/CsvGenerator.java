@@ -83,10 +83,10 @@ public class CsvGenerator {
 
         if (gameCode.endsWith("BB")) {
             BballPlayerStat stat = (BballPlayerStat) playerStat;
-            data.add(stat.getGameResultId());
+//            data.add(stat.getGameResultId());
             data.add(stat.getPlayer().getId());
             data.add(stat.getPlayer().getName());
-            data.add(String.valueOf(stat.getMinPlayed()));
+//            data.add(String.valueOf(stat.getMinPlayed()));
             data.add(String.valueOf(stat.getFieldGoalAttempts()));
             data.add(String.valueOf(stat.getFieldGoalMade()));
             data.add(String.valueOf(stat.getTwoPointsAttempts()));
@@ -109,7 +109,7 @@ public class CsvGenerator {
 
         } else if (gameCode.endsWith("VB")) {
             VballPlayerStat stat = (VballPlayerStat) playerStat;
-            data.add(stat.getGameResultId());
+//            data.add(stat.getGameResultId());
             data.add(stat.getPlayer().getId());
             data.add(stat.getPlayer().getName());
             data.add(String.valueOf(stat.getAttackMade()));

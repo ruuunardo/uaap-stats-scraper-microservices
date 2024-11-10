@@ -1,8 +1,11 @@
 package com.teamr.runardo.uaapdatawebapp.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
 
@@ -11,7 +14,9 @@ import java.time.LocalTime;
         description = "Schema basket ball player stat"
 )
 @Data
+//@NoArgsConstructor
 public class BballPlayerStat extends PlayerStat{
+
     private Player player;
     //
     private String gameResultId;
@@ -55,4 +60,5 @@ public class BballPlayerStat extends PlayerStat{
     private Integer foulsFD;
 
     private Integer efficiency;
+
 }

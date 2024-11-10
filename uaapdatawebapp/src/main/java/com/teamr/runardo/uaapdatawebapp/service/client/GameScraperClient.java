@@ -23,11 +23,11 @@ public interface GameScraperClient {
     @PostMapping(value = "api/scrape/stats", consumes = "application/json")
     public ResponseEntity<HashMap<String, List<? extends PlayerStat>>> scrapeGameStat(@RequestBody UaapSeasonDto uaapSeasonDto, @RequestParam Integer gameNumber);
 
-    @PostMapping(value = "api/scrape/stats/VB")
-    public ResponseEntity<HashMap<String, List<VballPlayerStat>>> scrapeGameStatVball(@Valid @RequestBody UaapSeasonDto uaapSeasonDto, @RequestParam Integer gameNumber);
-
-    @PostMapping(value = "api/scrape/stats/BB")
-    public ResponseEntity<HashMap<String, List<BballPlayerStat>>> scrapeGameStatBball(@Valid @RequestBody UaapSeasonDto uaapSeasonDto, @RequestParam Integer gameNumber);
+//    @PostMapping(value = "api/scrape/stats/VB")
+//    public ResponseEntity<HashMap<String, List<VballPlayerStat>>> scrapeGameStatVball(@Valid @RequestBody UaapSeasonDto uaapSeasonDto, @RequestParam Integer gameNumber);
+//
+//    @PostMapping(value = "api/scrape/stats/BB")
+//    public ResponseEntity<HashMap<String, List<BballPlayerStat>>> scrapeGameStatBball(@Valid @RequestBody UaapSeasonDto uaapSeasonDto, @RequestParam Integer gameNumber);
 
     @PostMapping("api/scrape/test")
     public ResponseEntity<List<UaapGameDto>> scrapeAllGamesBy(@RequestBody UaapSeasonDto uaapSeasonDto);

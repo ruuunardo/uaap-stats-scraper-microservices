@@ -5,13 +5,15 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@Builder
+//@Builder
 @Schema(
         name = "UAAP Player",
         description = "Schema to hold UAAP Player information"
 )
+@NoArgsConstructor
 public class Player {
 
     @NotEmpty(message = "Player id must not be empty")
