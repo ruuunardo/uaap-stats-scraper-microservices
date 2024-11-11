@@ -21,7 +21,7 @@ public class BballPlayerStat extends PlayerStat{
     //
     private String gameResultId;
 
-    private Integer isFirstFive;
+    private Boolean isFirstFive;
 
     private Integer points;
 

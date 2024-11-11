@@ -1,11 +1,11 @@
 package com.teamr.runardo.uaapstatsdata.controller;
 
 import com.teamr.runardo.uaapstatsdata.constants.UaapDataConstants;
-import com.teamr.runardo.uaapstatsdata.dto.*;
+import com.teamr.runardo.uaapstatsdata.dto.ErrorResponseDto;
+import com.teamr.runardo.uaapstatsdata.dto.ResponseDto;
+import com.teamr.runardo.uaapstatsdata.dto.UaapGameDto;
+import com.teamr.runardo.uaapstatsdata.dto.UaapSeasonDto;
 import com.teamr.runardo.uaapstatsdata.entity.*;
-import com.teamr.runardo.uaapstatsdata.exception.UaapSeasonAlreadyExistsException;
-import com.teamr.runardo.uaapstatsdata.mapper.UaapGameMapper;
-import com.teamr.runardo.uaapstatsdata.mapper.UaapSeasonMapper;
 import com.teamr.runardo.uaapstatsdata.service.UaapDataService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -24,7 +24,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Tag(
         name = "CRUD REST APIs for UAAP Stats",
@@ -43,7 +42,30 @@ public class UaapDataController {
         this.uaapDataService = uaapDataService;
     }
 
-
+    /**
+     * CREATE UAAP SEASON
+     * @param uaapSeasonDto
+     *  @return {@code ResponseEntity} with body--{@link ResponseDto}
+     */
+    @Operation(
+            summary = "Create UAAP Season REST API",
+            description = "REST API to create UAAP Season from database"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "HTTP Status CREATED",
+                    content = @Content(schema = @Schema(implementation = ResponseDto.class))
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    }
+    )
     @PostMapping("/create/uaapseason")
     public ResponseEntity<ResponseDto> createUaapSeason(@Valid @RequestBody UaapSeasonDto uaapSeasonDto) {
         uaapDataService.saveUaapSeason(uaapSeasonDto);
@@ -235,8 +257,8 @@ public class UaapDataController {
     )
     @ApiResponses({
             @ApiResponse(
-                    responseCode = "200",
-                    description = "HTTP Status OK",
+                    responseCode = "201",
+                    description = "HTTP Status CREATED",
                     content = @Content(schema = @Schema(implementation = UaapGame.class))
             ),
             @ApiResponse(
@@ -341,12 +363,7 @@ public class UaapDataController {
             @ApiResponse(
                     responseCode = "200",
                     description = "HTTP Status OK",
-                    content = @Content(schema = @Schema(implementation = BballPlayerStat.class))
-            ),
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "HTTP Status OK",
-                    content = @Content(schema = @Schema(implementation = VballPlayerStat.class))
+                    content = @Content(schema = @Schema(implementation = PlayerStat.class))
             ),
             @ApiResponse(
                     responseCode = "500",
@@ -366,18 +383,32 @@ public class UaapDataController {
                 .body(uaapStats);
     }
 
-//    @PostMapping(value = "/create/uaapstats", params = "code=BB")
-//    public ResponseEntity<ResponseDto> createUaapStats(@RequestBody List<BballPlayerStat> stat) {
-//        log.info(stat.toString());
-//        uaapDataService.saveUaapStats(stat);
-//
-//        return ResponseEntity
-//                .status(HttpStatus.CREATED)
-//                .body(new ResponseDto(UaapDataConstants.STATUS_201, UaapDataConstants.MESSAGE_201));
-//    }
-
-    @PostMapping(value = "/create/uaapstats", params = "code=BB")
-    public ResponseEntity<ResponseDto> createUaapStatsBball(@RequestBody List<BballPlayerStat> stat) {
+    /**
+     * CREATE UAAP PLAYER STATS
+     * @param stat
+     *  @return {@code ResponseEntity} with body--{@link ResponseDto}
+     */
+    @Operation(
+            summary = "Create UAAP Stats REST API",
+            description = "REST API to create UAAP Player Stats from database"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "HTTP Status CREATED",
+                    content = @Content(schema = @Schema(implementation = ResponseDto.class))
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    }
+    )
+    @PostMapping(value = "/create/uaapstats")
+    public ResponseEntity<ResponseDto> createUaapStats(@RequestBody List<? extends PlayerStat> stat) {
         log.info(stat.toString());
         uaapDataService.saveUaapStats(stat);
 
@@ -386,26 +417,68 @@ public class UaapDataController {
                 .body(new ResponseDto(UaapDataConstants.STATUS_201, UaapDataConstants.MESSAGE_201));
     }
 
-    @PostMapping(value = "/create/uaapstats", params = "code=VB")
-    public ResponseEntity<ResponseDto> createUaapStatsVball(@RequestBody List<VballPlayerStat> stat) {
-        log.info(stat.toString());
-        uaapDataService.saveUaapStats(stat);
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(new ResponseDto(UaapDataConstants.STATUS_201, UaapDataConstants.MESSAGE_201));
+    /**
+     * DELETE UAAP PLAYER STATS BY GAME ID
+     * @param gameId
+     *  @return {@code ResponseEntity} with body--{@link ResponseDto}
+     */
+    @Operation(
+            summary = "Delete UAAP Stats REST API by Game Id",
+            description = "REST API to delete UAAP Player Stats from database"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK",
+                    content = @Content(schema = @Schema(implementation = ResponseDto.class))
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
     }
-
+    )
     @DeleteMapping(value = "/delete/uaapstats")
     public ResponseEntity<ResponseDto> deleteUaapStats(@RequestParam String gameId) {
         uaapDataService.deleteUaapStatsByGameId(gameId);
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(new ResponseDto(UaapDataConstants.STATUS_201, UaapDataConstants.MESSAGE_201));
+                .status(HttpStatus.OK)
+                .body(new ResponseDto(UaapDataConstants.STATUS_200, UaapDataConstants.MESSAGE_201));
     }
 
-
+    /**
+     * DELETE UAAP PLAYERs BY SEASON ID
+     * @param seasonId
+     *  @return {@code ResponseEntity} with body--{@link ResponseDto}
+     */
+    @Operation(
+            summary = "Delete UAAP Players REST API by Season Id",
+            description = "REST API to delete UAAP Players from database"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK",
+                    content = @Content(schema = @Schema(implementation = BballPlayerStat.class))
+            ),
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK",
+                    content = @Content(schema = @Schema(implementation = VballPlayerStat.class))
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    }
+    )
     @DeleteMapping(value = "/delete/players")
     public ResponseEntity<ResponseDto> deletePlayersBySeasonId(@RequestParam String seasonId) {
         uaapDataService.deleteAllPlayersBySeasonId(seasonId);

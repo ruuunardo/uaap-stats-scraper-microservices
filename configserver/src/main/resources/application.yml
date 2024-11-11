@@ -32,3 +32,6 @@ management:
         enabled: true
     shutdown:
       enabled: true
+
+encrypt:
+  key: "45dfhji6789hgf765fgffgd"

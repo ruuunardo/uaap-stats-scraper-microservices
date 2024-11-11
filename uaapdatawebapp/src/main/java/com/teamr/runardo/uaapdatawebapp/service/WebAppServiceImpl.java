@@ -85,18 +85,9 @@ public class WebAppServiceImpl implements WebAppService{
     }
 
     private void extractAndSavePlayerStats(UaapGameDto g, UaapSeasonDto uaapSeasonDto) {
-        String gameCode = uaapSeasonDto.getGameCode().getGameCode();
-        if (gameCode.endsWith("BB")) {
-            HashMap<String, List<? extends PlayerStat>> hashMap = gameScraperClient.scrapeGameStat(uaapSeasonDto, g.getGameNumber()).getBody();
-            List<BballPlayerStat> playerStats = (List<BballPlayerStat>) hashMap.values().stream().flatMap(List::stream).toList();
-            uaapDataClient.createUaapStatsBball(playerStats);
-        } else if (gameCode.endsWith("VB")) {
-            HashMap<String, List<? extends PlayerStat>> hashMap = gameScraperClient.scrapeGameStat(uaapSeasonDto, g.getGameNumber()).getBody();
-            List<VballPlayerStat> playerStats = (List<VballPlayerStat>) hashMap.values().stream().flatMap(List::stream).toList();
-            uaapDataClient.createUaapStatsVball(playerStats);
-        } else {
-            throw new RuntimeException("Game Code not supported: " + gameCode);
-        }
+        HashMap<String, List<? extends PlayerStat>> hashMap = gameScraperClient.scrapeGameStat(uaapSeasonDto, g.getGameNumber()).getBody();
+        List<? extends PlayerStat> playerStats = hashMap.values().stream().flatMap(List::stream).toList();
+        uaapDataClient.createUaapStats(playerStats);
     }
 
     @Override

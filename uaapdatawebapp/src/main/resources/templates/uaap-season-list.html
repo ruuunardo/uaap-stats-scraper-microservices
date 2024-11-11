@@ -50,13 +50,13 @@
                 <h3>UAAP GAMES DATA</h3>
                 <p class="fst-italic">(Download game result per Season)</p>
             </div>
-<!--            <form class="d-flex" th:action="@{/logout}" method="POST" sec:authorize="isAuthenticated()">-->
-<!--                <button class="btn btn-sm btn-outline-danger" type="submit"-->
-<!--                        name="action" value="logout">Logout</button>-->
-<!--            </form>-->
-            <form class="d-flex" th:action="@{/showLoginPage}" method="GET" sec:authorize="!isAuthenticated()">
+            <form class="d-flex" th:action="@{/logout}" method="POST" sec:authorize="isAuthenticated()">
+                <button class="btn btn-sm btn-outline-danger" type="submit"
+                        name="action" value="logout">Logout</button>
+            </form>
+            <form class="d-flex" th:action="@{/login}" method="GET" sec:authorize="!isAuthenticated()">
                 <button class="btn btn-sm btn-outline-success" type="submit"
-                        name="action" value="login">Placeholder</button>
+                        name="action" value="login">Login to download</button>
             </form>
         </div>
     </nav>
@@ -67,7 +67,7 @@
             <th scope="col">Season - Game</th>
             <th scope="col">Game Count</th>
             <th scope="col">Source</th>
-            <th scope="col">Actions</th>
+            <th scope="col" sec:authorize="isAuthenticated()">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -83,7 +83,7 @@
                 <i th:if="${isNotValid}" class="fa-solid fa-triangle-exclamation" style="color: #ff0000;" data-toggle="tooltip" data-placement="top" title="error url">
                 </i>
             </td>
-            <td>
+            <td sec:authorize="isAuthenticated()">
                 <a th:href="@{uaap-games/update(gameSeasonId=${game.id})}" class="btn btn-sm" data-toggle="tooltip"
                    data-placement="top" title="Update games" aria-disabled="true" th:classappend="${isNotValid} ? 'disabled border border-0'">
                     <i class="fa-solid fa-arrows-rotate" th:styleappend="${isNotValid} ? 'color: #4a4a4a' : 'color: #0a8301'"></i>

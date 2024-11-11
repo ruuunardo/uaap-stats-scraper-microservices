@@ -29,13 +29,45 @@ services:
       file: common-config.yml
       service: microservice-configserver-config
 
-  statsraper:
+  statscraper:
     image: "runardo/uaapstatscraper:v1"
     container_name: uaapstatscraper-ms
     ports:
       - "8081:8081"
     healthcheck:
       test: "curl --fail --silent localhost:8081/actuator/health/readiness | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    extends:
+      file: common-config.yml
+      service: microservice-eurekaserver-config
+
+  statdata:
+    image: "runardo/uaapstatsdata:v1"
+    container_name: uaapstatsdata-ms
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: "curl --fail --silent localhost:8080/actuator/health/readiness | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    extends:
+      file: common-config.yml
+      service: microservice-eurekaserver-config
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://host.docker.internal:3306/test"
+
+  webapp:
+    image: "runardo/uaapdatawebapp:v1"
+    container_name: uaapdatawebapp-ms
+    ports:
+      - "9090:9090"
+    healthcheck:
+      test: "curl --fail --silent localhost:9090/actuator/health/readiness | grep UP || exit 1"
       interval: 20s
       timeout: 5s
       retries: 10

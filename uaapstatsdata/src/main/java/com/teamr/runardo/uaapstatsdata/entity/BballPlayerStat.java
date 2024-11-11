@@ -10,9 +10,10 @@ import java.time.LocalTime;
 @Data
 @Entity
 @Table(name = "basketball_player_stats")
+@Schema(name = "Basketball Player Stats",description = "Schema to hold basketball player stats information")
 public class BballPlayerStat extends PlayerStat{
     @Column(name = "is_first_five")
-    private Integer isFirstFive;
+    private Boolean isFirstFive;
 
     @Column(name = "points")
     private Integer points;

@@ -37,10 +37,6 @@ public class GameScraperController {
         this.accountService = accountService;
     }
 
-    @GetMapping("/hello")
-    public String sayHello() {
-        return "Hello World!";
-    }
 
     @Operation(
             summary = "Scrape UAAP Games REST API",

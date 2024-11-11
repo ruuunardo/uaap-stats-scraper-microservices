@@ -38,12 +38,8 @@ public interface UaapDataClient {
     @PutMapping("api/update/uaapgame")
     public ResponseEntity<ResponseDto> updateUaapGame(@RequestBody UaapGameDto uaapGameDto);
 
-
-    @PostMapping(value = "api/create/uaapstats", params = "code=BB")
-    public ResponseEntity<ResponseDto> createUaapStatsBball(@RequestBody List<BballPlayerStat> stat);
-
-    @PostMapping(value = "api/create/uaapstats", params = "code=VB")
-    public ResponseEntity<ResponseDto> createUaapStatsVball(@RequestBody List<VballPlayerStat> stat);
+    @PostMapping(value = "api/create/uaapstats")
+    public ResponseEntity<ResponseDto> createUaapStats(@RequestBody List<? extends PlayerStat> stat);
 
     @GetMapping(value = "api/fetch/uaapstats")
     public ResponseEntity<List<? extends PlayerStat>> fetchUaapStats(@RequestParam String gameId);

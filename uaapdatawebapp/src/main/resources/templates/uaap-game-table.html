@@ -56,6 +56,18 @@
       background:none
     }
 
+     .table-container {
+            height: 400px; /* Set the height of the table container */
+            overflow-y: auto; /* Enable vertical scrolling */
+           margin-top: 4
+        }
+    .table-container thead {
+            position: sticky;
+            top: 0;
+            z-index: 1; /* Ensure the header is above the body rows */
+            background-color: white; /* Optional: to ensure the header is not transparent */
+        }
+
 <!-- -->
   </style>
 
@@ -83,13 +95,13 @@
       </form>
       <form class="d-flex" th:action="@{/showLoginPage}" method="GET" sec:authorize="!isAuthenticated()">
         <button class="btn btn-sm btn-outline-success" type="submit"
-                name="action" value="login">Log as admin</button>
+                name="action" value="login">Login to download</button>
       </form>
     </div>
   </nav>
 
   <form method="GET">
-    <div>
+    <div class="table-container">
     <table class="table">
       <thead>
       <tr>
@@ -138,7 +150,7 @@
     <button type="submit" name="delete" value="true" class="btn btn-sm btn-danger mb-3" sec:authorize="hasRole('ADMIN')">
       <i class="fa-solid fa-trash-can me-2"></i>Delete
     </button>
-    <button type="submit" name="download" value="true" class="btn btn-sm btn-primary mb-3">
+    <button type="submit" name="download" value="true" class="btn btn-sm btn-primary mb-3" sec:authorize="isAuthenticated()">
       <i class="fa-solid fa-download me-2"></i>Download
     </button>
   </form>

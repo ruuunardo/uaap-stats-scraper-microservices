@@ -112,8 +112,18 @@ public class CsvGenerator {
             data.add(stat.getGameResultId());
             data.add(stat.getPlayer().getId());
             data.add(stat.getPlayer().getName());
-            data.add(String.valueOf(stat.getAttackMade()));
             data.add(String.valueOf(stat.getAttackAttempt()));
+            data.add(String.valueOf(stat.getAttackMade()));
+            data.add(String.valueOf(stat.getServeAttempt()));
+            data.add(String.valueOf(stat.getServeMade()));
+            data.add(String.valueOf(stat.getBlockAttempt()));
+            data.add(String.valueOf(stat.getBlockMade()));
+            data.add(String.valueOf(stat.getDigAttempt()));
+            data.add(String.valueOf(stat.getDigMade()));
+            data.add(String.valueOf(stat.getReceiveAttempt()));
+            data.add(String.valueOf(stat.getReceiveMade()));
+            data.add(String.valueOf(stat.getSetAttempt()));
+            data.add(String.valueOf(stat.getSetMade()));
         }
         return data;
     }
