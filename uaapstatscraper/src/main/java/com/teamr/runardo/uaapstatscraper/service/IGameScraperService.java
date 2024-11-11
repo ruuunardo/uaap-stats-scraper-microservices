@@ -12,7 +12,5 @@ public interface IGameScraperService {
 
     HashMap<String, List<PlayerStat>> getUaapGamePlayerStats(UaapSeasonDto uaapSeasonDto, Integer gameNumber);
 
-    List<PlayerStat> getUaapGamePlayerStatsTest(UaapSeasonDto uaapSeasonDto, Integer gameNumber);
-
     UaapGameDto updateGame(UaapSeasonDto uaapSeasonDto, Integer gameNumber);
 }

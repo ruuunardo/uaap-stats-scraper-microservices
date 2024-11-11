@@ -3,7 +3,9 @@ package com.teamr.runardo.uaapstatscraper.controller;
 import com.teamr.runardo.uaapstatscraper.dto.ErrorResponseDto;
 import com.teamr.runardo.uaapstatscraper.dto.UaapGameDto;
 import com.teamr.runardo.uaapstatscraper.dto.UaapSeasonDto;
+import com.teamr.runardo.uaapstatscraper.dto.playerstat.BballPlayerStat;
 import com.teamr.runardo.uaapstatscraper.dto.playerstat.PlayerStat;
+import com.teamr.runardo.uaapstatscraper.dto.playerstat.VballPlayerStat;
 import com.teamr.runardo.uaapstatscraper.service.IGameScraperService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -68,37 +70,33 @@ public class GameScraperController {
                 .body(allGames);
     }
 
-
-//    @PostMapping(value = "/scrape/stats/BB")
-//    public ResponseEntity<HashMap<String, List<PlayerStat>>> scrapeGameStatBball(@Valid @RequestBody UaapSeasonDto uaapSeasonDto, @RequestParam Integer gameNumber) {
-//        HashMap<String, List<PlayerStat>> playerStats = accountService.getUaapGamePlayerStats(uaapSeasonDto, gameNumber);
-//
-//        return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .body(playerStats);
-//    }
-//
-//    @PostMapping(value = "/scrape/stats/VB")
-//    public ResponseEntity<HashMap<String, List<PlayerStat>>> scrapeGameStatVball(@Valid @RequestBody UaapSeasonDto uaapSeasonDto, @RequestParam Integer gameNumber) {
-//        HashMap<String, List<PlayerStat>> playerStats = accountService.getUaapGamePlayerStats(uaapSeasonDto, gameNumber);
-//
-//        return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .body(playerStats);
-//    }
-
+    @Operation(
+            summary = "Scrape UAAP Player Stats REST API",
+            description = "REST API to scrape UAAP Player Stats from stats website"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK",
+                    content = @Content(schema = @Schema(implementation = BballPlayerStat.class))
+            ),
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK",
+                    content = @Content(schema = @Schema(implementation = VballPlayerStat.class))
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    }
+    )
     @PostMapping(value = "/scrape/stats")
     public ResponseEntity<HashMap<String, List<PlayerStat>>> scrapeGameStat(@Valid @RequestBody UaapSeasonDto uaapSeasonDto, @RequestParam Integer gameNumber) {
         HashMap<String, List<PlayerStat>> playerStats = accountService.getUaapGamePlayerStats(uaapSeasonDto, gameNumber);
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(playerStats);
-    }
-
-    @PostMapping("/scrape/statstest")
-    public ResponseEntity<List<PlayerStat>> scrapeGameStatTest(@Valid @RequestBody UaapSeasonDto uaapSeasonDto, @RequestParam Integer gameNumber) {
-        List<PlayerStat> playerStats = accountService.getUaapGamePlayerStatsTest(uaapSeasonDto, gameNumber);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

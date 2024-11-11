@@ -1,0 +1,49 @@
+services:
+  configserver:
+    image: "runardo/configserver:v1"
+    container_name: configserver-ms
+    ports:
+      - "8071:8071"
+    healthcheck:
+      test: "curl --fail --silent localhost:8071/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
+
+  eurekaserver:
+    image: "runardo/eurekaserver:v1"
+    container_name: eurekaserver-ms
+    ports:
+      - "8070:8070"
+    healthcheck:
+      test: "curl --fail --silent localhost:8070/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    extends:
+      file: common-config.yml
+      service: microservice-configserver-config
+
+  statsraper:
+    image: "runardo/uaapstatscraper:v1"
+    container_name: uaapstatscraper-ms
+    ports:
+      - "8081:8081"
+    healthcheck:
+      test: "curl --fail --silent localhost:8081/actuator/health/readiness | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    extends:
+      file: common-config.yml
+      service: microservice-eurekaserver-config
+
+networks:
+  uaapdata:
+    driver: "bridge"

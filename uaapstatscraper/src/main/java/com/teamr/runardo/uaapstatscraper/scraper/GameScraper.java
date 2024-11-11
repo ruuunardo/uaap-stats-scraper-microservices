@@ -131,7 +131,6 @@ public abstract class GameScraper {
 
         try {
             Document doc = getDocumentStats(urlStats);
-            HashMap<String, List<PlayerStat>> playerStatsMap = new HashMap<>();
             addAdditionalGameData(doc, uaapGameDto);
             return uaapGameDto;
         } catch (IOException e) {
@@ -156,6 +155,7 @@ public abstract class GameScraper {
         try {
             Document doc = getDocumentStats(urlStats);
             HashMap<String, List<PlayerStat>> playerStatsMap = new HashMap<>();
+            addAdditionalGameData(doc, uaapGameDto);
             for (GameResultDto gameResultDto : uaapGameDto.getGameResultDtos()) {
                 List<PlayerStat> playerStats = scrapePlayerStats(gameResultDto, doc);
                 playerStatsMap.put(gameResultDto.getId(), playerStats);

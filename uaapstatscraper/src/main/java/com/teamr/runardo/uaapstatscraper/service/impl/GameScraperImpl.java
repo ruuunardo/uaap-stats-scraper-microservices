@@ -38,11 +38,4 @@ public class GameScraperImpl implements IGameScraperService {
         return uaapGameDto;
     }
 
-    @Override
-    public List<PlayerStat> getUaapGamePlayerStatsTest(UaapSeasonDto uaapSeasonDto, Integer gameNumber) {
-        HashMap<String, List<PlayerStat>> playerStats = getUaapGamePlayerStats(uaapSeasonDto, gameNumber);
-        List<PlayerStat> stats = playerStats.values().stream().flatMap(List::stream).toList();
-        return stats;
-    }
-
 }

@@ -1,8 +1,6 @@
 package com.teamr.runardo.uaapdatawebapp.service.client;
 
-import com.teamr.runardo.uaapdatawebapp.model.BballPlayerStat;
-import com.teamr.runardo.uaapdatawebapp.model.UaapSeason;
-import com.teamr.runardo.uaapdatawebapp.model.VballPlayerStat;
+import com.teamr.runardo.uaapdatawebapp.model.*;
 import com.teamr.runardo.uaapdatawebapp.model.dto.ResponseDto;
 import com.teamr.runardo.uaapdatawebapp.model.dto.UaapGameDto;
 import com.teamr.runardo.uaapdatawebapp.model.dto.UaapSeasonDto;
@@ -31,11 +29,11 @@ public interface UaapDataClient {
     @PutMapping("api/update/uaapseason")
     public ResponseEntity<ResponseDto> updateUaapSeason(@Valid @RequestBody UaapSeasonDto uaapSeasonDto);
 
-        @DeleteMapping("api/delete/uaapgame")
+    @DeleteMapping("api/delete/uaapgame")
     public ResponseEntity<ResponseDto> deleteUaapGameById(@RequestParam String gameId);
 
     @PostMapping("api/create/uaapgame")
-    public ResponseEntity<ResponseDto> createUaapGame(@RequestBody UaapGameDto uaapGameDto);
+    public ResponseEntity<UaapGame> createUaapGame(@RequestBody UaapGameDto uaapGameDto);
 
     @PutMapping("api/update/uaapgame")
     public ResponseEntity<ResponseDto> updateUaapGame(@RequestBody UaapGameDto uaapGameDto);
@@ -47,9 +45,7 @@ public interface UaapDataClient {
     @PostMapping(value = "api/create/uaapstats", params = "code=VB")
     public ResponseEntity<ResponseDto> createUaapStatsVball(@RequestBody List<VballPlayerStat> stat);
 
-    @GetMapping(value = "api/fetch/uaapstats", params = "code=VB")
-    public ResponseEntity<List<VballPlayerStat>> fetchUaapStatsVball(@RequestParam String gameId);
+    @GetMapping(value = "api/fetch/uaapstats")
+    public ResponseEntity<List<? extends PlayerStat>> fetchUaapStats(@RequestParam String gameId);
 
-    @GetMapping(value = "api/fetch/uaapstats", params = "code=BB")
-    public ResponseEntity<List<BballPlayerStat>> fetchUaapStatsBball(@RequestParam String gameId);
-}
+    }

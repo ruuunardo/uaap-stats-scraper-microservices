@@ -50,7 +50,7 @@ public class BballPlayerStatFactory implements PlayerStatsFactory {
                 .foulsPF(Integer.parseInt(splitStat[20]))
                 .foulsFD(Integer.parseInt(splitStat[21]))
                 .efficiency(Integer.parseInt(splitStat[22]))
-                .isFirstFive(splitStat[0].startsWith("*") ? 1 : 0)
+                .isFirstFive(splitStat[0].startsWith("*"))
                 .gameResultId(gameResultDto.getId())
                 .build();
 

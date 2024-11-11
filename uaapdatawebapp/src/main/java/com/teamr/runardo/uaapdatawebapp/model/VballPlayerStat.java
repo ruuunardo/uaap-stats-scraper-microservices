@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class VballPlayerStat extends PlayerStat{
     private Player player;
     //
-//    private String gameResultId;
+    private String gameResultId;
 
     private Integer attackAttempt;
 

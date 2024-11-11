@@ -110,22 +110,11 @@ public class WebAppServiceImpl implements WebAppService{
     public List<? extends PlayerStat> fetchUaapStatsByGameIds(Optional<List<String>> selections, String id) {
         List<String> strings = selections.get();
         String gameCode = id.split("-")[1];
-        if (gameCode.endsWith("BB")) {
-            List<BballPlayerStat> stats = strings.stream().map(
+            List<? extends PlayerStat> stats = strings.stream().map(
                     s -> {
-                        return uaapDataClient.fetchUaapStatsBball(s).getBody();
+                        return uaapDataClient.fetchUaapStats(s).getBody();
                     }
             ).flatMap(List::stream).toList();
             return stats;
-        } else if (gameCode.endsWith("VB")) {
-            List<VballPlayerStat> stats = strings.stream().map(
-                    s -> {
-                        return uaapDataClient.fetchUaapStatsVball(s).getBody();
-                    }
-            ).flatMap(List::stream).toList();
-            return stats;
-        } else {
-            throw new RuntimeException("Game Code not supported: " + gameCode);
-        }
     }
 }

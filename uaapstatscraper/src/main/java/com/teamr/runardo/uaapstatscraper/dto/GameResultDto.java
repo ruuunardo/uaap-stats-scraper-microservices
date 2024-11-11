@@ -1,6 +1,7 @@
 package com.teamr.runardo.uaapstatscraper.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
@@ -19,22 +20,18 @@ public class GameResultDto {
     private UaapUniv univ;
 
     @Schema(description = "Team tag of the Game Results")
-    @Pattern(regexp = "", message = "Should only be AWAY or HOME")
+    @Pattern(regexp = "^(AWAY|HOME)$", message = "Should only be AWAY or HOME")
     private String teamTag;
 
     @Schema(description = "Final score of the team")
+    @Min(value = 0, message = "should be greater than 0")
     private int finalScore;
-
-//    @Schema(description = "Player stats list")
-//    private List<PlayerStat> playerStats;
-
 
     public GameResultDto(GameResultDtoBuilder gameResultDtoBuilder) {
         this.id = gameResultDtoBuilder.id;
         this.univ = gameResultDtoBuilder.univ;
         this.teamTag = gameResultDtoBuilder.teamTag;
         this.finalScore = gameResultDtoBuilder.finalScore;
-//        this.playerStats = gameResultDtoBuilder.playerStats;
     }
 
     public static class GameResultDtoBuilder {
@@ -73,7 +70,6 @@ public class GameResultDto {
 
         // Id created in build
         public GameResultDto build() {
-//            assert gameId != 0;
             assert univ != null;
             assert id != null;
 
