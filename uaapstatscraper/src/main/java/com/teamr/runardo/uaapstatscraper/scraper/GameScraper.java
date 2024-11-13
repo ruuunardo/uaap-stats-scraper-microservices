@@ -235,6 +235,15 @@ public abstract class GameScraper {
         }
     }
 
+//    //    for getting stats (will try to fetch 3 times with 1 second of waiting time)
+//    @Retry
+//    private Document getDocumentStats(String urlStats, String code) throws IOException {
+//        Document doc;
+//        doc = UtilityClass.getGameDocument(urlStats);
+//        return doc;
+//    }
+
+
     //------------------- SIMPLE FACTORY ----------------------////
     public static GameScraper gameScraperFactory(UaapSeasonDto uaapSeasonDto)  {
         String gameCode = uaapSeasonDto.getGameCode().getGameCode();

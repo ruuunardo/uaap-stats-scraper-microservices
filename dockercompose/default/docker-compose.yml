@@ -1,4 +1,17 @@
 services:
+  uaapdatadb:
+    container_name: uaapdatadb
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: uaapdatadb
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "password"
+    extends:
+      file: common-config.yml
+      service: microservice-db-config
+
   configserver:
     image: "runardo/configserver:v1"
     container_name: configserver-ms
@@ -55,12 +68,18 @@ services:
       timeout: 5s
       retries: 10
       start_period: 10s
+    depends_on:
+      uaapdatadb:
+        condition: service_healthy
     extends:
       file: common-config.yml
       service: microservice-eurekaserver-config
     environment:
-      SPRING_DATASOURCE_URL: "jdbc:mysql://host.docker.internal:3306/test"
-
+#      SPRING_DATASOURCE_URL: "jdbc:mysql://host.docker.internal:3306/test"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://uaapdatadb:3306/uaapdatadb"
+      SPRING_SQL_INIT_MODE: "always"
+      SPRING_DATASOURCE_USERNAME: "user"
+      SPRING_DATASOURCE_PASSWORD: "password"
   webapp:
     image: "runardo/uaapdatawebapp:v1"
     container_name: uaapdatawebapp-ms

@@ -27,13 +27,14 @@
             </a>
             <div class="navbar-brand" th:href="@{/uaap-games}">
                 <h3>UAAP GAMES FORM</h3>
-                <p class="fst-italic">(Add Uaap Game)</p>
+                <p class="fst-italic" th:if="${gameSeason.id==null}">(Add Uaap Game Season)</p>
+                <p class="fst-italic" th:if="${gameSeason.id!=null}">(Edit Uaap Game Season)</p>
             </div>
-<!--            <form class="d-flex" th:action="@{/logout}" method="POST" sec:authorize="isAuthenticated()">-->
-<!--                <button class="btn btn-sm btn-outline-danger" type="submit"-->
-<!--                        name="action" value="logout">Logout</button>-->
-<!--            </form>-->
-            <form class="d-flex" th:action="@{/showLoginPage}" method="GET" sec:authorize="!isAuthenticated()">
+            <form class="d-flex" th:action="@{/logout}" method="POST" sec:authorize="isAuthenticated()">
+                <button class="btn btn-sm btn-outline-danger" type="submit"
+                        name="action" value="logout">Logout</button>
+            </form>
+            <form class="d-flex" th:action="@{/login}" method="GET" sec:authorize="!isAuthenticated()">
                 <button class="btn btn-sm btn-outline-success" type="submit"
                         name="action" value="login">Log as admin</button>
             </form>
@@ -45,7 +46,7 @@
     </div>
 
     <form action="#" th:action="@{/uaap-games/save}" th:object="${gameSeason}" method="POST">
-        <input type="text" th:field="*{id}">
+        <input type="hidden" th:field="*{id}">
         <input type="hidden" th:field="*{urlWork}">
         <div class="mb-4 w-25">
             <input type="text" th:field="*{gameCode.gameCode}" placeholder="Game Code"
@@ -75,13 +76,13 @@
             <div id="validationUrl" class="invalid-feedback" th:errors="*{url}">
                 Please choose a username.
             </div>
-            <div style="display:flex" th:if="*{!urlWork} AND *{id} != 0">
-                <a th:href="@{/uaap-games/check-url(gameSeasonId=*{id})}" class="btn btn-sm" data-toggle="tooltip"
-                   data-placement="top" title="check url if working" style="color: #FF0000;">
-                    <i class="fa-solid fa-circle-check fa-xl" style="color: #FF0000;"></i>
-                    click to check url
-                </a>
-            </div>
+<!--            <div style="display:flex" th:if="*{!urlWork} AND *{id} != 0">-->
+<!--                <a th:href="@{/uaap-games/check-url(gameSeasonId=*{id})}" class="btn btn-sm" data-toggle="tooltip"-->
+<!--                   data-placement="top" title="check url if working" style="color: #FF0000;">-->
+<!--                    <i class="fa-solid fa-circle-check fa-xl" style="color: #FF0000;"></i>-->
+<!--                    click to check url-->
+<!--                </a>-->
+<!--            </div>-->
         </div>
         <button type="submit" class="btn btn-success col-2">Save</button>
     </form>
