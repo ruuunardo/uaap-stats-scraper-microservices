@@ -80,7 +80,7 @@ public class WebAppServiceImpl implements WebAppService{
         for (UaapGameDto gameDto : uaapGamesMissing) {
             uaapDataClient.updateUaapGame(gameDto);
             extractAndSavePlayerStats(gameDto, uaapSeasonDto);
-            break;
+//            break;
         }
     }
 
