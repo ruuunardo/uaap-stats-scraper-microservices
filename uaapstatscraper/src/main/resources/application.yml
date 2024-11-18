@@ -39,3 +39,13 @@ info:
     name: "uaapstatscraper"
     description: "UAAP Data scraper"
     version: "1.0.0"
+
+resilience4j.retry:
+  configs:
+    default:
+      maxAttempts: 3
+      waitDuration: 500
+      enableExponentialBackoff: true
+      exponentialBackoffMultiplier: 2
+      retryExceptions:
+        - java.io.IOException

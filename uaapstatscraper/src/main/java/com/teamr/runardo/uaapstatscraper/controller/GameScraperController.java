@@ -1,12 +1,14 @@
 package com.teamr.runardo.uaapstatscraper.controller;
 
 import com.teamr.runardo.uaapstatscraper.dto.ErrorResponseDto;
+import com.teamr.runardo.uaapstatscraper.dto.ResponseDto;
 import com.teamr.runardo.uaapstatscraper.dto.UaapGameDto;
 import com.teamr.runardo.uaapstatscraper.dto.UaapSeasonDto;
 import com.teamr.runardo.uaapstatscraper.dto.playerstat.BballPlayerStat;
 import com.teamr.runardo.uaapstatscraper.dto.playerstat.PlayerStat;
 import com.teamr.runardo.uaapstatscraper.dto.playerstat.VballPlayerStat;
 import com.teamr.runardo.uaapstatscraper.service.IGameScraperService;
+import io.github.resilience4j.retry.annotation.Retry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,6 +16,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +35,7 @@ import java.util.List;
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 @Validated
 public class GameScraperController {
+    private static final Logger log = LoggerFactory.getLogger(GameScraperController.class);
     private final IGameScraperService accountService;
 
     public GameScraperController(IGameScraperService accountService) {
@@ -91,12 +96,20 @@ public class GameScraperController {
     }
     )
     @PostMapping(value = "/scrape/stats")
+    @Retry(name = "scrapeGameStat", fallbackMethod = "scrapeGameStatFallback")
     public ResponseEntity<HashMap<String, List<PlayerStat>>> scrapeGameStat(@Valid @RequestBody UaapSeasonDto uaapSeasonDto, @RequestParam Integer gameNumber) {
         HashMap<String, List<PlayerStat>> playerStats = accountService.getUaapGamePlayerStats(uaapSeasonDto, gameNumber);
-
+        log.info("scrapegames invoked!");
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(playerStats);
+    }
+
+    public ResponseEntity<ResponseDto> scrapeGameStatFallback(@Valid @RequestBody UaapSeasonDto uaapSeasonDto, @RequestParam Integer gameNumber, Throwable throwable) {
+        log.info("scrapegames fallback invoked!");
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ResponseDto("500", "INTERNAL_SERVER_ERROR"));
     }
 
     @PostMapping("/update/game")

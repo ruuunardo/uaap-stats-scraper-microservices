@@ -76,6 +76,8 @@ services:
       service: microservice-eurekaserver-config
     environment:
 #      SPRING_DATASOURCE_URL: "jdbc:mysql://host.docker.internal:3306/test"
+#      SPRING_DATASOURCE_USERNAME: "springstudent"
+#      SPRING_DATASOURCE_PASSWORD: "springstudent"
       SPRING_DATASOURCE_URL: "jdbc:mysql://uaapdatadb:3306/uaapdatadb"
       SPRING_SQL_INIT_MODE: "always"
       SPRING_DATASOURCE_USERNAME: "user"

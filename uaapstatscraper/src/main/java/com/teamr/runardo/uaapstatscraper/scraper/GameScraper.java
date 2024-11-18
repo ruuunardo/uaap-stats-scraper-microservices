@@ -220,10 +220,10 @@ public abstract class GameScraper {
                 return doc;
             } catch (HttpStatusException e) {
                 if (e.getStatusCode() >= 500) {
-                    if (i < 3) {
+                    if (i < maxAttempt) {
                         ++i;
                         try {
-                            Thread.sleep(2000 * 1);
+                            Thread.sleep(2500 * 1);
                         } catch (InterruptedException ex) {
                             throw new RuntimeException(ex);
                         }
