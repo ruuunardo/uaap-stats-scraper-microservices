@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: statdata-deployment
+  labels:
+    app: statdata
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: statdata
+  template:
+    metadata:
+      labels:
+        app: statdata
+    spec:
+      containers:
+        - name: statdata
+          image: runardo/uaapstatsdata:v1
+          ports:
+            - containerPort: 8081
+          env:
+            - name: SPRING_CONFIG_IMPORT
+              valueFrom:
+                configMapKeyRef:
+                  name: uaapdata-configmap
+                  key: SPRING_CONFIG_IMPORT
+            - name: SPRING_PROFILES_ACTIVE
+              valueFrom:
+                configMapKeyRef:
+                  name: uaapdata-configmap
+                  key: SPRING_PROFILES_ACTIVE
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              valueFrom:
+                configMapKeyRef:
+                  name: uaapdata-configmap
+                  key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: uaapdata-configmap
+                  key: SPRING_DATASOURCE_URL
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: uaapdata-configmap
+                  key: SPRING_DATASOURCE_USERNAME
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: uaapdata-configmap
+                  key: MYSQL_ROOT_PASSWORD
+            - name: SPRING_SQL_INIT_MODE
+              valueFrom:
+                configMapKeyRef:
+                  name: uaapdata-configmap
+                  key: SPRING_SQL_INIT_MODE
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: statdata
+spec:
+  selector:
+    app: statdata
+  type: ClusterIp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
