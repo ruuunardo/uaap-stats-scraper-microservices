@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: configserver
-        image: runardo/configserver:v1
+        image: runardo/configserver:v2
         ports:
         - containerPort: 8071
 ---

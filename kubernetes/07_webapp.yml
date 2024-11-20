@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webapp-deployment
+  name: uaapdatawebapp-deployment
   labels:
-    app: webapp
+    app: uaapdatawebapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: webapp
+      app: uaapdatawebapp
   template:
     metadata:
       labels:
-        app: webapp
+        app: uaapdatawebapp
     spec:
       containers:
-        - name: webapp
-          image: runardo/uaapdatawebapp:v1
+        - name: uaapdatawebapp
+          image: runardo/uaapdatawebapp:v2
           ports:
             - containerPort: 9090
           env:
@@ -30,20 +30,20 @@ spec:
                 configMapKeyRef:
                   name: uaapdata-configmap
                   key: SPRING_PROFILES_ACTIVE
-            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+            - name: SPRING.CLOUD.KUBERNETES.DISCOVERY.DISCOVERY-SERVER-URL
               valueFrom:
                 configMapKeyRef:
                   name: uaapdata-configmap
-                  key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+                  key: SPRING.CLOUD.KUBERNETES.DISCOVERY.DISCOVERY-SERVER-URL
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: webapp
+  name: uaapdatawebapp
 spec:
   selector:
-    app: webapp
+    app: uaapdatawebapp
   type: LoadBalancer
   ports:
     - protocol: TCP

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient("uaapstatsdata")
+@FeignClient(name = "uaapstatsdata", url = "http://uaapstatsdata:8080")
 public interface UaapDataClient {
 
     @GetMapping(value = "api/fetch/uaapseason", consumes = "application/json")

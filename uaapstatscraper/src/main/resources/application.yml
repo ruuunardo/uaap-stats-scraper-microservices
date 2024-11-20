@@ -6,6 +6,10 @@ spring:
     name: "uaapstatscraper"
   config:
     import: "optional:configserver:http://localhost:8071/"
+  cloud:
+    kubernetes:
+      discovery:
+        all-namespaces: true
 
 management:
   endpoints:

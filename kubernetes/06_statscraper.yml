@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: statscraper-deployment
+  name: uaapstatscraper-deployment
   labels:
-    app: statscraper
+    app: uaapstatscraper
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: statscraper
+      app: uaapstatscraper
   template:
     metadata:
       labels:
-        app: statscraper
+        app: uaapstatscraper
     spec:
       containers:
-        - name: statscraper
-          image: runardo/uaapstatscraper:v1
+        - name: uaapstatscraper
+          image: runardo/uaapstatscraper:v2
           ports:
             - containerPort: 8081
           env:
@@ -30,21 +30,21 @@ spec:
                 configMapKeyRef:
                   name: uaapdata-configmap
                   key: SPRING_PROFILES_ACTIVE
-            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+            - name: SPRING.CLOUD.KUBERNETES.DISCOVERY.DISCOVERY-SERVER-URL
               valueFrom:
                 configMapKeyRef:
                   name: uaapdata-configmap
-                  key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+                  key: SPRING.CLOUD.KUBERNETES.DISCOVERY.DISCOVERY-SERVER-URL
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: statscraper
+  name: uaapstatscraper
 spec:
   selector:
-    app: statscraper
-  type: ClusterIp
+    app: uaapstatscraper
+  type: LoadBalancer
   ports:
     - protocol: TCP
-      port: 80
+      port: 8081
       targetPort: 8081
