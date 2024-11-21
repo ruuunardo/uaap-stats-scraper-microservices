@@ -1,12 +1,12 @@
-insert into uaap_univ(univ_code, name_univ)
-values("FEU","Far Eastern University"),
-("NU","National University"),
-("UP","University of the Philippines"),
-("UST","University of Santo Tomas"),
-("ADU","Adamson University"),
-("UE","University of the East"),
-("ADMU","Ateneo de Manila University"),
-("DLSU","De La Salle University")
+insert ignore into uaap_univ(univ_code, name_univ)
+values(1, "FEU","Far Eastern University"),
+(2, "NU","National University"),
+(3, "UP","University of the Philippines"),
+(4, "UST","University of Santo Tomas"),
+(5, "ADU","Adamson University"),
+(6, "UE","University of the East"),
+(7, "ADMU","Ateneo de Manila University"),
+(8, "DLSU","De La Salle University")
 ;
 
 --insert into users

@@ -1,13 +1,14 @@
 SET FOREIGN_KEY_CHECKS=0;
 
-CREATE TABLE `uaap_game_codes` (
+
+CREATE TABLE  IF NOT EXISTS `uaap_game_codes` (
   `game_code` varchar(50) NOT NULL,
   `game_name` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`game_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 ;
 
-CREATE TABLE `uaap_seasons` (
+CREATE TABLE  IF NOT EXISTS `uaap_seasons` (
   `id` varchar(20) NOT NULL,
   `game_code` varchar(20) NOT NULL,
   `season_number` int NOT NULL,
@@ -18,7 +19,7 @@ CREATE TABLE `uaap_seasons` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 ;
 
-CREATE TABLE `uaap_games` (
+CREATE TABLE  IF NOT EXISTS `uaap_games` (
   `id` varchar(20) NOT NULL,
   `game_number` int DEFAULT NULL,
   `game_sched` datetime DEFAULT NULL,
@@ -29,7 +30,7 @@ CREATE TABLE `uaap_games` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 ;
 
-CREATE TABLE `uaap_univ` (
+CREATE TABLE  IF NOT EXISTS `uaap_univ` (
   `id` int NOT NULL AUTO_INCREMENT,
   `univ_code` varchar(20) DEFAULT NULL,
   `name_univ` varchar(256) NOT NULL,
@@ -37,7 +38,7 @@ CREATE TABLE `uaap_univ` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 ;
 
-CREATE TABLE `uaap_game_results` (
+CREATE TABLE  IF NOT EXISTS `uaap_game_results` (
   `id` varchar(20) NOT NULL,
   `game_id` varchar(20) DEFAULT NULL,
   `univ_id` int DEFAULT NULL,
@@ -53,7 +54,7 @@ CREATE TABLE `uaap_game_results` (
 ;
 
 
-CREATE TABLE `uaap_players` (
+CREATE TABLE  IF NOT EXISTS `uaap_players` (
   `id` varchar(20) NOT NULL,    -- based on season number, gamecode, team, player number (e.g. 87-MBB-UP-20)
   `name` varchar(128) DEFAULT NULL,
   `univ_id` int DEFAULT NULL,
@@ -63,7 +64,7 @@ CREATE TABLE `uaap_players` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 ;
 
-CREATE TABLE `basketball_player_stats` (
+CREATE TABLE  IF NOT EXISTS `basketball_player_stats` (
   `game_result_id` varchar(20) NOT NULL,
   `player_id` varchar(20) NOT NULL,
   `min_played` time DEFAULT NULL,
@@ -93,7 +94,7 @@ CREATE TABLE `basketball_player_stats` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 ;
 
-CREATE TABLE `users` (
+CREATE TABLE  IF NOT EXISTS `users` (
   `username` varchar(256) NOT NULL,
   `password` varchar(255) DEFAULT NULL,
   `active` boolean DEFAULT NULL,
@@ -101,7 +102,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 ;
 
-CREATE TABLE `roles` (
+CREATE TABLE  IF NOT EXISTS `roles` (
   `username` varchar(256) DEFAULT NULL,
   `role` varchar(50) DEFAULT NULL,
   UNIQUE KEY `username` (`username`,`role`),
