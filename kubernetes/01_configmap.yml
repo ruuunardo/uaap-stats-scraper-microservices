@@ -10,5 +10,5 @@ data:
   SPRING_DATASOURCE_URL: "jdbc:mysql://mysql-0.mysql:3306/uaapdatadb"
   SPRING_DATASOURCE_USERNAME: "root"
   MYSQL_ROOT_PASSWORD: "my-secret-password"
-  SPRING_SQL_INIT_MODE: "never"
+  SPRING_SQL_INIT_MODE: "always"
   MYSQL_DATABASE: "uaapdatadb"
