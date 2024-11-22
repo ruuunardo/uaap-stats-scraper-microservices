@@ -1,5 +1,7 @@
 package com.teamr.runardo.uaapdatawebapp.controller;
 
+import com.nimbusds.jose.RemoteKeySourceException;
+import com.teamr.runardo.uaapdatawebapp.exception.ResourceNotFoundException;
 import com.teamr.runardo.uaapdatawebapp.model.PlayerStat;
 import com.teamr.runardo.uaapdatawebapp.model.UaapGame;
 import com.teamr.runardo.uaapdatawebapp.model.UaapGameCode;
@@ -39,7 +41,8 @@ public class WebAppController {
 
     @GetMapping("/home")
     public String mainpage() {
-        return "homepage";
+        throw new ResourceNotFoundException("account", "number", "123");
+//        return "homepage";
     }
 
 

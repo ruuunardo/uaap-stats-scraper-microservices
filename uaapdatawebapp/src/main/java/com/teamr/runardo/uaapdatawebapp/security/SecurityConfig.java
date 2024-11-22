@@ -22,7 +22,7 @@ public class SecurityConfig{
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeHttpRequests(configurer -> configurer
-                        .requestMatchers("/login", "/", "/error", "/home", "/images/**").permitAll()
+                        .requestMatchers("/login", "/", "/error", "/uaap-games/home", "/images/**").permitAll()
                         .requestMatchers("/uaap-games", "/uaap-games/gamelist/**").permitAll()
                         .requestMatchers("/uaap-games/update/**", "/uaap-games/export-to-csv").authenticated()
                         .requestMatchers("/uaap-games/delete/**", "/uaap-games/edit/**", "/uaap-games/show-form").hasRole("ADMIN")
