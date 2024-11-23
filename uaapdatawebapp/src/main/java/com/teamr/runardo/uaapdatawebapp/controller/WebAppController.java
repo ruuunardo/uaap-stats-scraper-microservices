@@ -39,12 +39,6 @@ public class WebAppController {
         return "hello";
     }
 
-    @GetMapping("/home")
-    public String mainpage() {
-        throw new ResourceNotFoundException("account", "number", "123");
-//        return "homepage";
-    }
-
 
     /** Show all the list of UAAP Season
      *

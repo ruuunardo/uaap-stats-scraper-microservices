@@ -78,16 +78,18 @@ public class WebAppServiceImpl implements WebAppService{
         ).toList();
 
         for (UaapGameDto gameDto : uaapGamesMissing) {
-            uaapDataClient.updateUaapGame(gameDto);
-            extractAndSavePlayerStats(gameDto, uaapSeasonDto);
-//            break;
+            List<? extends PlayerStat> playerStats = extractAndSavePlayerStats(gameDto, uaapSeasonDto);
+            if (!playerStats.isEmpty()) {
+                uaapDataClient.updateUaapGame(gameDto);
+                uaapDataClient.createUaapStats(playerStats);
+            }
         }
     }
 
-    private void extractAndSavePlayerStats(UaapGameDto g, UaapSeasonDto uaapSeasonDto) {
+    private List<? extends PlayerStat> extractAndSavePlayerStats(UaapGameDto g, UaapSeasonDto uaapSeasonDto) {
         HashMap<String, List<? extends PlayerStat>> hashMap = gameScraperClient.scrapeGameStat(uaapSeasonDto, g.getGameNumber()).getBody();
         List<? extends PlayerStat> playerStats = hashMap.values().stream().flatMap(List::stream).toList();
-        uaapDataClient.createUaapStats(playerStats);
+        return playerStats;
     }
 
     @Override

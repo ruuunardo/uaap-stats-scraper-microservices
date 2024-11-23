@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: uaapdatawebapp
-          image: runardo/uaapdatawebapp:v2
+          image: runardo/uaapdatawebapp:v3
           ports:
             - containerPort: 9090
           env:

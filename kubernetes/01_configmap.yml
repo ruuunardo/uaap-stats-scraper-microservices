@@ -12,3 +12,4 @@ data:
   MYSQL_ROOT_PASSWORD: "my-secret-password"
   SPRING_SQL_INIT_MODE: "always"
   MYSQL_DATABASE: "uaapdatadb"
+  SPRING_CLOUD_CONFIG_SERVER_GIT_URI: "https://github.com/ruuunardo/uaap-stats-scraper-config"

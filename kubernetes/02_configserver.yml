@@ -15,10 +15,16 @@ spec:
         app: configserver
     spec:
       containers:
-      - name: configserver
-        image: runardo/configserver:v2
-        ports:
-        - containerPort: 8071
+        - name: configserver
+          image: runardo/configserver:v2
+          ports:
+          - containerPort: 8071
+          env:
+            - name: SPRING_CLOUD_CONFIG_SERVER_GIT_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: uaapdata-configmap
+                  key: SPRING_CLOUD_CONFIG_SERVER_GIT_URI
 ---
 apiVersion: v1
 kind: Service
