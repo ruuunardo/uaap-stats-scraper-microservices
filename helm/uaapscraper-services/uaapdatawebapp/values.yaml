@@ -1,0 +1,28 @@
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+deploymentName: uaapdatawebapp-deployment
+serviceName: uaapdatawebapp
+appLabel: uaapdatawebapp
+appName: uaapdatawebapp
+
+replicaCount: 1
+
+image:
+  repository: runardo/uaapdatawebapp
+  tag: v2
+
+containerPort: 9090
+
+service:
+  type: LoadBalancer
+  port: 9090
+  targetPort: 9090
+
+profile_enabled: true
+config_enabled: true
+discoveryServer_enabled: true
+datasourceUrl_enabled: false
+datasourceUser_enabled : false
+datasourcePassword_enabled: false
+configServerGit_enabled: false

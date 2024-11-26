@@ -1,0 +1,28 @@
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+deploymentName: configserver-deployment
+serviceName: configserver
+appLabel: configserver
+appName: configserver
+
+replicaCount: 1
+
+image:
+  repository: runardo/configserver
+  tag: v2
+
+containerPort: 8071
+
+service:
+  type: LoadBalancer
+  port: 8071
+  targetPort: 8071
+
+profile_enabled: false
+config_enabled: false
+discoveryServer_enabled: false
+datasourceUrl_enabled: false
+datasourceUser_enabled : false
+datasourcePassword_: false
+configServerGit_enabled: true

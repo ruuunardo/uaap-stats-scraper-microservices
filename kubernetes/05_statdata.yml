@@ -50,11 +50,6 @@ spec:
                 configMapKeyRef:
                   name: uaapdata-configmap
                   key: MYSQL_ROOT_PASSWORD
-            - name: SPRING_SQL_INIT_MODE
-              valueFrom:
-                configMapKeyRef:
-                  name: uaapdata-configmap
-                  key: SPRING_SQL_INIT_MODE
 ---
 apiVersion: v1
 kind: Service

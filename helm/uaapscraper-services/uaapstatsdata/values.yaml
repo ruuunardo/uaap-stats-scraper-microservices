@@ -1,0 +1,28 @@
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+deploymentName: uaapstatsdata-deployment
+serviceName: uaapstatsdata
+appLabel: uaapstatsdata
+appName: uaapstatsdata
+
+replicaCount: 1
+
+image:
+  repository: runardo/uaapstatsdata
+  tag: v2
+
+containerPort: 8080
+
+service:
+  type: LoadBalancer
+  port: 8080
+  targetPort: 8080
+
+profile_enabled: true
+config_enabled: true
+discoveryServer_enabled: true
+datasourceUrl_enabled: true
+datasourceUser_enabled : true
+datasourcePassword_enabled: true
+configServerGit_enabled: false

@@ -1,0 +1,14 @@
+{{- define "common.configmap" -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.global.configMapName }}
+data:
+  SPRING_PROFILES_ACTIVE: {{ .Values.global.activeProfile }}
+  SPRING_CONFIG_IMPORT: {{ .Values.global.configServerURL }}
+  SPRING.CLOUD.KUBERNETES.DISCOVERY.DISCOVERY-SERVER-URL: {{ .Values.global.discoveryServerURL }}
+  SPRING_DATASOURCE_URL: {{ .Values.global.datasourceURL }}
+  SPRING_DATASOURCE_USERNAME: {{ .Values.global.datasourceUsername }}
+  SPRING_DATASOURCE_PASSWORD: {{ .Values.global.datasourcePassword }}
+  SPRING_CLOUD_CONFIG_SERVER_GIT_URI: {{ .Values.global.configServerGitUri }}
+  {{- end -}}

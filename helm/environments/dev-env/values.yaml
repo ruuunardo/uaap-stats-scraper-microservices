@@ -1,0 +1,9 @@
+global:
+  configMapName: uaapdata-configmap
+  activeProfile:  default
+  configServerURL: configserver:http://configserver:8071
+  discoveryServerURL: "https://github.com/ruuunardo/uaap-stats-scraper-config"
+  datasourceURL: "jdbc:mysql://mysql-0.mysql:3306/uaapdatadb"
+  datasourceUsername: "root"
+  datasourcePassword: "my-secret-password"
+  configServerGitUri: "https://github.com/ruuunardo/uaap-stats-scraper-config"

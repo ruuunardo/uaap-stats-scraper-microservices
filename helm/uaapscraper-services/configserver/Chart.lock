@@ -1,0 +1,6 @@
+dependencies:
+- name: uaapscraper-common
+  repository: file://../../uaapscraper-common
+  version: 0.1.0
+digest: sha256:b0ba8d004556de3cd61dacba6155b8af2e07feb42e0d37723e9d06fdda68600e
+generated: "2024-11-26T00:32:54.0125516+08:00"

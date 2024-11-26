@@ -114,6 +114,7 @@ CREATE TABLE IF NOT EXISTS `volleyball_player_stats` (
   CONSTRAINT `uaap_players_ibfk_2` FOREIGN KEY (`player_id`) REFERENCES `uaap_players` (`id`),
   CONSTRAINT `volleyball_player_stats_ibfk_3` FOREIGN KEY (`game_result_id`) REFERENCES `uaap_game_results` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+;
 
 CREATE TABLE  IF NOT EXISTS `users` (
   `username` varchar(256) NOT NULL,

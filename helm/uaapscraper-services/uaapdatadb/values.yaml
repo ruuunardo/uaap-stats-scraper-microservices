@@ -1,0 +1,16 @@
+deploymentName: mysql
+serviceName: mysql
+appLabel: mysql
+appName: mysql
+
+replicaCount: 1
+
+image:
+  repository: mysql
+  tag: 8.0
+
+datasource:
+  password: 
+  db: uaapdatadb
+
+containerPort: 3306
