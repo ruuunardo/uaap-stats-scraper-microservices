@@ -1,4 +1,4 @@
-insert ignore into uaap_univ(univ_code, name_univ)
+insert ignore into uaap_univ(id, univ_code, name_univ)
 values(1, "FEU","Far Eastern University"),
 (2, "NU","National University"),
 (3, "UP","University of the Philippines"),
