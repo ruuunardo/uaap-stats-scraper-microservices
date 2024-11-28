@@ -13,6 +13,17 @@ spring:
     kubernetes:
       discovery:
         all-namespaces: true
+  datasource:
+    url: "jdbc:mysql://localhost:3306/test"
+    username: springstudent
+    password: springstudent
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  sql:
+    init:
+      mode: always
 
 management:
   endpoints:

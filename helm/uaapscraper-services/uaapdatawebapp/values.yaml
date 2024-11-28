@@ -10,7 +10,7 @@ replicaCount: 1
 
 image:
   repository: runardo/uaapdatawebapp
-  tag: v2
+  tag: v3
 
 containerPort: 9090
 
@@ -22,7 +22,7 @@ service:
 profile_enabled: true
 config_enabled: true
 discoveryServer_enabled: true
-datasourceUrl_enabled: false
-datasourceUser_enabled : false
-datasourcePassword_enabled: false
+datasourceUrl_enabled: true
+datasourceUser_enabled : true
+datasourcePassword_enabled: true
 configServerGit_enabled: false

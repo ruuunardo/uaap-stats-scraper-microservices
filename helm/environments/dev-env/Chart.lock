@@ -1,12 +1,15 @@
 dependencies:
-- name: uaapscraper-common
-  repository: file://../../uaapscraper-common
-  version: 0.1.0
 - name: configserver
   repository: file://../../uaapscraper-services/configserver
   version: 0.1.0
 - name: kubernetes-discovery-server
   repository: file://../../uaapscraper-services/kubernetes-discovery-server
+  version: 0.1.0
+- name: uaapscraper-common
+  repository: file://../../uaapscraper-common
+  version: 0.1.0
+- name: uaapdatadb
+  repository: file://../../uaapscraper-services/uaapdatadb
   version: 0.1.0
 - name: uaapstatscraper
   repository: file://../../uaapscraper-services/uaapstatscraper
@@ -17,8 +20,5 @@ dependencies:
 - name: uaapstatsdata
   repository: file://../../uaapscraper-services/uaapstatsdata
   version: 0.1.0
-- name: uaapdatadb
-  repository: file://../../uaapscraper-services/uaapdatadb
-  version: 0.1.0
-digest: sha256:bf7789ff896a5a29d8804107f68b16fa34e9bdab0d811a83b598761f8191b907
-generated: "2024-11-26T13:28:20.7401556+08:00"
+digest: sha256:244a3989c70f1b560e43588a4a2e363936c865bfb46b48a1caa903a0e5e0ce8d
+generated: "2024-11-28T21:49:21.3687648+08:00"

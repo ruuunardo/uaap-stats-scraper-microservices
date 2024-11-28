@@ -24,10 +24,6 @@ version: 0.1.0
 appVersion: "1.0.0"
 
 dependencies:
-    - name: uaapscraper-common
-      version: 0.1.0
-      repository: file://../../uaapscraper-common
-
     - name: configserver
       version: 0.1.0
       repository: file://../../uaapscraper-services/configserver
@@ -35,6 +31,14 @@ dependencies:
     - name: kubernetes-discovery-server
       version: 0.1.0
       repository: file://../../uaapscraper-services/kubernetes-discovery-server
+
+    - name: uaapscraper-common
+      version: 0.1.0
+      repository: file://../../uaapscraper-common
+
+    - name: uaapdatadb
+      version: 0.1.0
+      repository: file://../../uaapscraper-services/uaapdatadb
 
     - name: uaapstatscraper
       version: 0.1.0
@@ -48,7 +52,3 @@ dependencies:
       version: 0.1.0
       repository: file://../../uaapscraper-services/uaapstatsdata
 
-    - name: uaapdatadb
-      version: 0.1.0
-      repository: file://../../uaapscraper-services/uaapdatadb
-    
