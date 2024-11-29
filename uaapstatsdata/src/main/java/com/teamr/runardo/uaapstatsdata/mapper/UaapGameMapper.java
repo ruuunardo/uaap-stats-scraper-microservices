@@ -15,15 +15,16 @@ public class UaapGameMapper {
         uaapGame.setVenue(uaapGameDto.getVenue());
         uaapGame.setSeasonId(uaapGameDto.getUaapSeasonId());
 
-        List<GameResult> gameResultList = uaapGameDto.getGameResultDtos().stream().map(
-                g -> {
-                    GameResult gameResult = GameResultMapper.mapToGameResult(g, new GameResult());
-                    gameResult.setGameId(uaapGame.getId());
-                    return gameResult;
-                }
-        ).toList();
-
-        uaapGame.setGameResults(gameResultList);
+        if (uaapGameDto.getGameResultDtos() != null) {
+            List<GameResult> gameResultList = uaapGameDto.getGameResultDtos().stream().map(
+                    g -> {
+                        GameResult gameResult = GameResultMapper.mapToGameResult(g, new GameResult());
+                        gameResult.setGameId(uaapGame.getId());
+                        return gameResult;
+                    }
+            ).toList();
+            uaapGame.setGameResults(gameResultList);
+        }
 
         return uaapGame;
     }

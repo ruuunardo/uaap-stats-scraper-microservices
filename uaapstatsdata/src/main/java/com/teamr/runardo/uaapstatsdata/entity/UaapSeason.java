@@ -25,7 +25,7 @@ public class UaapSeason {
     private UaapGameCode gameCode;
 
     @Column(name = "is_url_working")
-    private boolean urlWork;
+    private Boolean urlWork;
 
     @OneToMany(cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "season_id")
