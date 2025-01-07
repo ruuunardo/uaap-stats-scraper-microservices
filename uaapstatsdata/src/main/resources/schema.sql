@@ -1,7 +1,7 @@
 SET FOREIGN_KEY_CHECKS=0;
 
 
-CREATE TABLE `uaap_game_codes` (
+CREATE TABLE IF NOT EXISTS `uaap_game_codes` (
   `game_code` varchar(50) NOT NULL,
   `game_name` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`game_code`)

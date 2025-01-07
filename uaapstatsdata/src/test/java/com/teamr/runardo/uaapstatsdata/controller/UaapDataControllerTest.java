@@ -65,7 +65,7 @@ class UaapDataControllerTest {
 
         assertTrue(uaapSeasonRepository.findAll().isEmpty());
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/create/uaapseason")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/uaapseasons")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(uaapSeasonDto)
                         ))
@@ -77,7 +77,7 @@ class UaapDataControllerTest {
     @Test
     @Sql(scripts = {"classpath:/data.sql", "classpath:/insertUaapSeason.sql", "classpath:/insertUaapGame.sql", "classpath:/insertStats.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void fetchUaapSeasonHttp() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/fetch/uaapseason")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/uaapseasons")
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(jsonPath("$", hasSize(1)))
@@ -88,7 +88,7 @@ class UaapDataControllerTest {
     @Test
     @Sql(scripts = {"classpath:/data.sql", "classpath:/insertUaapSeason.sql", "classpath:/insertUaapGame.sql", "classpath:/insertStats.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void fetchUaapSeasonByIdHttp() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/fetch/uaapseason/{id}", "1-MBB")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/uaapseasons/{id}", "1-MBB")
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(jsonPath("$.id").value("1-MBB"))
@@ -101,9 +101,8 @@ class UaapDataControllerTest {
     @Test
     @Sql(scripts = {"classpath:/data.sql", "classpath:/insertUaapSeason.sql", "classpath:/insertUaapGame.sql", "classpath:/insertStats.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void deleteUaapSeasonByIdHttp() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/delete/uaapseason")
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/uaapseasons/{seasonId}", "1-MBB")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .param("seasonId", "1-MBB")
                 )
                 .andExpect(status().isOk())
         ;
@@ -121,7 +120,7 @@ class UaapDataControllerTest {
     @Test
     @Sql(scripts = {"classpath:/data.sql", "classpath:/insertUaapSeason.sql", "classpath:/insertUaapGame.sql", "classpath:/insertStats.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void fetchUaapGameHttp() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/fetch/uaapgame/{gameId}", "1-MBB-1")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/uaapgames/{gameId}", "1-MBB-1")
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(jsonPath("$.id").value("1-MBB-1"))
@@ -145,7 +144,7 @@ class UaapDataControllerTest {
 
         UaapGame game = uaapDataService.saveUaapGame(uaapGameDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/create/uaapgame")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/uaapgames")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(uaapGameDto))
                 )
@@ -157,9 +156,8 @@ class UaapDataControllerTest {
     @Test
     @Sql(scripts = {"classpath:/data.sql", "classpath:/insertUaapSeason.sql", "classpath:/insertUaapGame.sql", "classpath:/insertStats.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void deleteUaapGameByIdHttp() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/delete/uaapgame")
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/uaapgames/{gameId}", "1-MBB-1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .param("gameId", "1-MBB-1")
                 )
                 .andExpect(status().isOk())
         ;
@@ -177,7 +175,7 @@ class UaapDataControllerTest {
     @Test
     @Sql(scripts = {"classpath:/data.sql", "classpath:/insertUaapSeason.sql", "classpath:/insertUaapGame.sql", "classpath:/insertStats.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void fetchStatsHttp() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/fetch/uaapstats")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/uaapstats")
                         .contentType(MediaType.APPLICATION_JSON)
                         .param("gameId", "1-MBB-1")
                 )
@@ -187,7 +185,7 @@ class UaapDataControllerTest {
     @Test
     @Sql(scripts = {"classpath:/data.sql", "classpath:/insertUaapSeason.sql", "classpath:/insertUaapGame.sql", "classpath:/insertStats.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void deleteStatsHttp() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/delete/uaapstats")
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/uaapstats")
                         .contentType(MediaType.APPLICATION_JSON)
                         .param("gameId", "1-MBB-1")
                 )

@@ -1,9 +1,6 @@
 package com.teamr.runardo.uaapstatscraper.controller;
 
-import com.teamr.runardo.uaapstatscraper.dto.ErrorResponseDto;
-import com.teamr.runardo.uaapstatscraper.dto.ResponseDto;
-import com.teamr.runardo.uaapstatscraper.dto.UaapGameDto;
-import com.teamr.runardo.uaapstatscraper.dto.UaapSeasonDto;
+import com.teamr.runardo.uaapstatscraper.dto.*;
 import com.teamr.runardo.uaapstatscraper.dto.playerstat.BballPlayerStat;
 import com.teamr.runardo.uaapstatscraper.dto.playerstat.PlayerStat;
 import com.teamr.runardo.uaapstatscraper.dto.playerstat.VballPlayerStat;
@@ -16,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -43,6 +41,34 @@ public class GameScraperController {
     }
 
 
+//    @Operation(
+//            summary = "Scrape UAAP Games REST API",
+//            description = "REST API to scrape UAAP Games from stats website"
+//    )
+//    @ApiResponses({
+//            @ApiResponse(
+//                    responseCode = "200",
+//                    description = "HTTP Status OK",
+//                    content = @Content(schema = @Schema(implementation = UaapGameDto.class))
+//            ),
+//            @ApiResponse(
+//                    responseCode = "500",
+//                    description = "HTTP Status Internal Server Error",
+//                    content = @Content(
+//                            schema = @Schema(implementation = ErrorResponseDto.class)
+//                    )
+//            )
+//    }
+//    )
+//    @PostMapping("/scrape/game")
+//    public ResponseEntity<List<UaapGameDto>> scrapeAllGames(@Valid @RequestBody UaapSeasonDto uaapSeasonDto) {
+//        List<UaapGameDto> allGames = accountService.getAllGames(uaapSeasonDto);
+//
+//        return ResponseEntity
+//                .status(HttpStatus.OK)
+//                .body(allGames);
+//    }
+
     @Operation(
             summary = "Scrape UAAP Games REST API",
             description = "REST API to scrape UAAP Games from stats website"
@@ -62,8 +88,9 @@ public class GameScraperController {
             )
     }
     )
-    @PostMapping("/scrape/game")
-    public ResponseEntity<List<UaapGameDto>> scrapeAllGames(@Valid @RequestBody UaapSeasonDto uaapSeasonDto) {
+    @GetMapping("/games")
+    public ResponseEntity<List<UaapGameDto>> scrapeAllGames(@RequestParam int seasonNumber, @RequestParam @Pattern(regexp = "^(http)s?.*:id.*") String url, @RequestParam String gameCode, @RequestParam String gameName) {
+        UaapSeasonDto uaapSeasonDto = new UaapSeasonDto(seasonNumber, url, new UaapGameCode(gameCode, gameName));
         List<UaapGameDto> allGames = accountService.getAllGames(uaapSeasonDto);
 
         return ResponseEntity
@@ -95,9 +122,10 @@ public class GameScraperController {
             )
     }
     )
-    @PostMapping(value = "/scrape/stats")
+    @GetMapping(value = "/stats")
     @Retry(name = "scrapeGameStat", fallbackMethod = "scrapeGameStatFallback")
-    public ResponseEntity<HashMap<String, List<PlayerStat>>> scrapeGameStat(@Valid @RequestBody UaapSeasonDto uaapSeasonDto, @RequestParam Integer gameNumber) {
+    public ResponseEntity<HashMap<String, List<PlayerStat>>> scrapeGameStat(@RequestParam int seasonNumber, @RequestParam @Pattern(regexp = "^(http)s?.*:id.*") String url, @RequestParam String gameCode, @RequestParam String gameName, @RequestParam Integer gameNumber) {
+        UaapSeasonDto uaapSeasonDto = new UaapSeasonDto(seasonNumber, url, new UaapGameCode(gameCode, gameName));
         HashMap<String, List<PlayerStat>> playerStats = accountService.getUaapGamePlayerStats(uaapSeasonDto, gameNumber);
         log.info("scrapegames invoked!");
         return ResponseEntity
@@ -105,21 +133,63 @@ public class GameScraperController {
                 .body(playerStats);
     }
 
-    public ResponseEntity<ResponseDto> scrapeGameStatFallback(@Valid @RequestBody UaapSeasonDto uaapSeasonDto, @RequestParam Integer gameNumber, Throwable throwable) {
+    public ResponseEntity<ResponseDto> scrapeGameStatFallback(@RequestParam int seasonNumber, @RequestParam @Pattern(regexp = "^(http)s?.*:id.*") String url, @RequestParam String gameCode, @RequestParam String gameName, @RequestParam Integer gameNumber, Throwable throwable) {
         log.info("scrapegames fallback invoked!");
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ResponseDto("500", "INTERNAL_SERVER_ERROR"));
     }
+//    -----------------------------------------------------------
 
-    @PostMapping("/update/game")
-    public ResponseEntity<UaapGameDto> scrapeGame(@Valid @RequestBody UaapSeasonDto uaapSeasonDto, @RequestParam Integer gameNumber) {
-        UaapGameDto game = accountService.updateGame(uaapSeasonDto, gameNumber);
+//    @Operation(
+//            summary = "Scrape UAAP Player Stats REST API",
+//            description = "REST API to scrape UAAP Player Stats from stats website"
+//    )
+//    @ApiResponses({
+//            @ApiResponse(
+//                    responseCode = "200",
+//                    description = "HTTP Status OK",
+//                    content = @Content(schema = @Schema(implementation = BballPlayerStat.class))
+//            ),
+//            @ApiResponse(
+//                    responseCode = "200",
+//                    description = "HTTP Status OK",
+//                    content = @Content(schema = @Schema(implementation = VballPlayerStat.class))
+//            ),
+//            @ApiResponse(
+//                    responseCode = "500",
+//                    description = "HTTP Status Internal Server Error",
+//                    content = @Content(
+//                            schema = @Schema(implementation = ErrorResponseDto.class)
+//                    )
+//            )
+//    }
+//    )
+//    @PostMapping(value = "/scrape/stats")
+//    @Retry(name = "scrapeGameStat", fallbackMethod = "scrapeGameStatFallback")
+//    public ResponseEntity<HashMap<String, List<PlayerStat>>> scrapeGameStat(@Valid @RequestBody UaapSeasonDto uaapSeasonDto, @RequestParam Integer gameNumber) {
+//        HashMap<String, List<PlayerStat>> playerStats = accountService.getUaapGamePlayerStats(uaapSeasonDto, gameNumber);
+//        log.info("scrapegames invoked!");
+//        return ResponseEntity
+//                .status(HttpStatus.OK)
+//                .body(playerStats);
+//    }
+//
+//    public ResponseEntity<ResponseDto> scrapeGameStatFallback(@Valid @RequestBody UaapSeasonDto uaapSeasonDto, @RequestParam Integer gameNumber, Throwable throwable) {
+//        log.info("scrapegames fallback invoked!");
+//        return ResponseEntity
+//                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                .body(new ResponseDto("500", "INTERNAL_SERVER_ERROR"));
+//    }
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(game);
-    }
+//    @PostMapping("/update/game")
+//    public ResponseEntity<UaapGameDto> scrapeGame(@Valid @RequestBody UaapSeasonDto uaapSeasonDto, @RequestParam Integer gameNumber) {
+//        UaapGameDto game = accountService.updateGame(uaapSeasonDto, gameNumber);
+//
+//        return ResponseEntity
+//                .status(HttpStatus.OK)
+//                .body(game);
+//    }
 }
 
 

@@ -4,9 +4,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 @Schema(
         name = "Uaap Season",
         description = "Schema to hold UAAP Season Game information"
@@ -22,7 +24,7 @@ public class UaapSeasonDto {
     @Schema(
             description = "URL for the data source", example = "https://uaap.livestats.ph/tournaments/uaap-season-87-men-s?game_id=:id"
     )
-    @Pattern(regexp="^(http)s?.*:id.*",message = "URL must have an 'id' parameter ")
+    @Pattern(regexp = "^(http)s?.*:id.*", message = "URL must have an 'id' parameter ")
     private String url;
 
 
