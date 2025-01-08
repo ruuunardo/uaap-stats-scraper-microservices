@@ -52,7 +52,6 @@ public class WebAppController {
         return "uaap-season-list";
     }
 
-
     //form for adding season
     @GetMapping("/show-form")
     public String showFormForAdd(Model model) {
@@ -70,7 +69,7 @@ public class WebAppController {
             webAppService.saveUaapSeason(uaapSeason);
             return "redirect:/uaap-games";
         }
-        return "uaap-games-form";
+        return "uaap-game-form";
     }
 
     //Delete UaapSeason
@@ -125,6 +124,10 @@ public class WebAppController {
     @GetMapping(value = "/gamelist/{gameSeasonId}", params = "download=true")
     public void downloadGameList(@PathVariable("gameSeasonId") String id, @RequestParam("selections") Optional<List<String>> selections, HttpServletResponse response) throws IOException {
         List<? extends PlayerStat> playerStats = webAppService.fetchUaapStatsByGameIds(selections, id);
+
+        response.setContentType("text/csv");
+        String header = String.format("attachment; filename=\"uaap-games_%s_filtered.csv\"", id);
+        response.addHeader("Content-Disposition", header);
         fileService.generateCSV(response, id, playerStats);
     }
 
@@ -132,8 +135,10 @@ public class WebAppController {
     @GetMapping("/export-to-csv")
     public void downloadUaapGame(HttpServletResponse response, @RequestParam("gameSeasonId") String id) throws IOException {
         UaapSeason uaapSeason = webAppService.findUaapSeasonById(id);
+
+        response.setContentType("text/csv");
+        String header = String.format("attachment; filename=\"uaap-games_%s-%s.csv\"", uaapSeason.getGameCode().getGameCode(), uaapSeason.getSeasonNumber());
+        response.addHeader("Content-Disposition", header);
         fileService.generateCSV(response, uaapSeason);
     }
-
-
 }

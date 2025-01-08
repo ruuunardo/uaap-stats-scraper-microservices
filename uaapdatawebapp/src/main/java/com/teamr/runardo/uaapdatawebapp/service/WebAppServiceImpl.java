@@ -71,7 +71,7 @@ public class WebAppServiceImpl implements WebAppService{
         ).toList();
 
         UaapSeasonDto uaapSeasonDto = UaapSeasonMapper.mapToUaapSeasonDto(uaapSeasonDb, new UaapSeasonDto());
-        List<UaapGameDto> uaapGameDtosWeb = gameScraperClient.scrapeAllGames(uaapSeasonDto).getBody();
+        List<UaapGameDto> uaapGameDtosWeb = gameScraperClient.scrapeAllGames(uaapSeasonDb.getSeasonNumber(), uaapSeasonDb.getUrl(), uaapSeasonDb.getGameCode().getGameCode(), uaapSeasonDb.getGameCode().getGameName()).getBody();
 
         List<UaapGameDto> uaapGamesMissing = uaapGameDtosWeb.stream().filter(
                 g -> !uaapGameDtosDb.contains(g)
@@ -87,7 +87,7 @@ public class WebAppServiceImpl implements WebAppService{
     }
 
     private List<? extends PlayerStat> extractAndSavePlayerStats(UaapGameDto g, UaapSeasonDto uaapSeasonDto) {
-        HashMap<String, List<? extends PlayerStat>> hashMap = gameScraperClient.scrapeGameStat(uaapSeasonDto, g.getGameNumber()).getBody();
+        HashMap<String, List<? extends PlayerStat>> hashMap = gameScraperClient.scrapeGameStat(uaapSeasonDto.getSeasonNumber(), uaapSeasonDto.getUrl(), uaapSeasonDto.getGameCode().getGameCode(), uaapSeasonDto.getGameCode().getGameName(), g.getGameNumber()).getBody();
         List<? extends PlayerStat> playerStats = hashMap.values().stream().flatMap(List::stream).toList();
         return playerStats;
     }
