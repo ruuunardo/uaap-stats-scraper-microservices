@@ -60,7 +60,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-kubernetes-discoveryclient</artifactId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -163,7 +163,7 @@
 				<version>3.4.4</version>
 				<configuration>
 					<to>
-						<image>runardo/${project.artifactId}:v3</image>
+						<image>runardo/${project.artifactId}:v1</image>
 					</to>
 				</configuration>
 			</plugin>

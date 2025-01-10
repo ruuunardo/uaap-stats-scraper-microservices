@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.HashMap;
 import java.util.List;
 
-@FeignClient(name = "uaapstatscraper", url = "http://uaapstatscraper:8081")
+@FeignClient(name = "uaapstatscraper")
 public interface GameScraperClient {
     @GetMapping(value = "api/games", consumes = "application/json")
     public ResponseEntity<List<UaapGameDto>> scrapeAllGames(@RequestParam int seasonNumber, @RequestParam @Pattern(regexp = "^(http)s?.*:id.*") String url, @RequestParam String gameCode, @RequestParam String gameName);
