@@ -1,9 +1,11 @@
 package com.teamr.runardo.uaapstatscraper.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 @Schema(
         name = "Uaap Game Code",
         description = "Schema to hold UAAP Game Code information"

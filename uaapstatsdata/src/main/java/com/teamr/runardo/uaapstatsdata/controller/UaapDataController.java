@@ -66,7 +66,7 @@ public class UaapDataController {
             )
     }
     )
-    @PostMapping("/create/uaapseason")
+    @PostMapping("/uaapseasons")
     public ResponseEntity<ResponseDto> createUaapSeason(@Valid @RequestBody UaapSeasonDto uaapSeasonDto) {
         uaapDataService.saveUaapSeason(uaapSeasonDto);
 
@@ -99,7 +99,7 @@ public class UaapDataController {
             )
     }
     )
-    @GetMapping("/fetch/uaapseason")
+    @GetMapping("/uaapseasons")
     public ResponseEntity<List<UaapSeason>> fetchAllUaapSeason() {
         List<UaapSeason> uaapSeasons = uaapDataService.findAllUaapSeason();
 
@@ -132,7 +132,7 @@ public class UaapDataController {
             )
     }
     )
-    @GetMapping("/fetch/uaapseason/{seasonId}")
+    @GetMapping("/uaapseasons/{seasonId}")
     public ResponseEntity<UaapSeason> fetchUaapSeasonById(@PathVariable String seasonId) {
         UaapSeason uaapSeason = uaapDataService.findUaapSeasonById(seasonId);
 
@@ -166,8 +166,8 @@ public class UaapDataController {
             )
     }
     )
-    @DeleteMapping("/delete/uaapseason")
-    public ResponseEntity<ResponseDto> deleteUaapSeasonById(@RequestParam String seasonId) {
+    @DeleteMapping("/uaapseasons/{seasonId}")
+    public ResponseEntity<ResponseDto> deleteUaapSeasonById(@PathVariable String seasonId) {
         Boolean isDeleted = uaapDataService.deleteUaapSeasonById(seasonId);
 
         if (isDeleted) {
@@ -203,7 +203,7 @@ public class UaapDataController {
             )
     }
     )
-    @PutMapping("/update/uaapseason")
+    @PutMapping("/uaapseasons")
     public ResponseEntity<ResponseDto> updateUaapSeason(@Valid @RequestBody UaapSeasonDto uaapSeasonDto) {
         uaapDataService.updateUaapSeason(uaapSeasonDto);
 
@@ -238,7 +238,7 @@ public class UaapDataController {
             )
     }
     )
-    @GetMapping("/fetch/uaapgame/{gameId}")
+    @GetMapping("/uaapgames/{gameId}")
     public ResponseEntity<UaapGame> fetchUaapGame(@PathVariable String gameId) {
         UaapGame game = uaapDataService.findUaapGameById(gameId);
         return ResponseEntity
@@ -270,7 +270,7 @@ public class UaapDataController {
             )
     }
     )
-    @PostMapping("/create/uaapgame")
+    @PostMapping("/uaapgames")
     public ResponseEntity<UaapGame> createUaapGame(@RequestBody UaapGameDto uaapGameDto) {
         UaapGame game = uaapDataService.saveUaapGame(uaapGameDto);
 
@@ -303,7 +303,7 @@ public class UaapDataController {
             )
     }
     )
-    @PutMapping("/update/uaapgame")
+    @PutMapping("/uaapgames")
     public ResponseEntity<ResponseDto> updateUaapGame(@RequestBody UaapGameDto uaapGameDto) {
         uaapDataService.updateUaapGame(uaapGameDto);
 
@@ -337,8 +337,8 @@ public class UaapDataController {
             )
     }
     )
-    @DeleteMapping("/delete/uaapgame")
-    public ResponseEntity<ResponseDto> deleteUaapGameById(@RequestParam String gameId) {
+    @DeleteMapping("/uaapgames/{gameId}")
+    public ResponseEntity<ResponseDto> deleteUaapGameById(@PathVariable String gameId) {
         Boolean isDeleted = uaapDataService.deleteUaapGameById(gameId);
 
         if (isDeleted) {
@@ -374,7 +374,7 @@ public class UaapDataController {
             )
     }
     )
-    @GetMapping(value = "/fetch/uaapstats")
+    @GetMapping(value = "/uaapstats")
     public ResponseEntity<List<? extends PlayerStat>> fetchUaapStats(@RequestParam String gameId) {
         List<? extends PlayerStat> uaapStats = uaapDataService.findUaapStatsByGameId(gameId);
 
@@ -407,7 +407,7 @@ public class UaapDataController {
             )
     }
     )
-    @PostMapping(value = "/create/uaapstats")
+    @PostMapping(value = "/uaapstats")
     public ResponseEntity<ResponseDto> createUaapStats(@RequestBody List<? extends PlayerStat> stat) {
         log.info(stat.toString());
         uaapDataService.saveUaapStats(stat);
@@ -441,7 +441,7 @@ public class UaapDataController {
             )
     }
     )
-    @DeleteMapping(value = "/delete/uaapstats")
+    @DeleteMapping(value = "/uaapstats")
     public ResponseEntity<ResponseDto> deleteUaapStats(@RequestParam String gameId) {
         uaapDataService.deleteUaapStatsByGameId(gameId);
 
@@ -479,7 +479,7 @@ public class UaapDataController {
             )
     }
     )
-    @DeleteMapping(value = "/delete/players")
+    @DeleteMapping(value = "/players")
     public ResponseEntity<ResponseDto> deletePlayersBySeasonId(@RequestParam String seasonId) {
         uaapDataService.deleteAllPlayersBySeasonId(seasonId);
 

@@ -1,6 +1,5 @@
 package com.teamr.runardo.uaapstatsdata.entity;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 

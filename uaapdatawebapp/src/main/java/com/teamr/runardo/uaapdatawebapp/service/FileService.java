@@ -32,10 +32,6 @@ public class FileService {
     }
 
     public void generateCSV(HttpServletResponse response, String seasonId, List<? extends PlayerStat> playerStats) throws IOException {
-        response.setContentType("text/csv");
-        String header = String.format("attachment; filename=\"uaap-games_%s_filtered.csv\"", seasonId);
-        response.addHeader("Content-Disposition", header);
-
         CsvGenerator csvGenerator = new CsvGenerator(response.getWriter());
         csvGenerator.writeUaapGamesToCsv(playerStats, seasonId, "STATS");
     }
@@ -47,10 +43,6 @@ public class FileService {
                     return UaapGameMapper.mapToUaapGameDto(g, new UaapGameDto());
                 }
         ).toList();
-
-        response.setContentType("text/csv");
-        String header = String.format("attachment; filename=\"uaap-games_%s-%s.csv\"", season.getGameCode().getGameCode(), season.getSeasonNumber());
-        response.addHeader("Content-Disposition", header);
 
         CsvGenerator csvGenerator = new CsvGenerator(response.getWriter());
         csvGenerator.writeUaapGamesToCsv(uaapGameDtos, UaapSeasonMapper.mapToUaapSeasonDto(season, new UaapSeasonDto()));

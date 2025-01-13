@@ -8,15 +8,18 @@ import com.teamr.runardo.uaapstatsdata.exception.UaapSeasonAlreadyExistsExceptio
 import com.teamr.runardo.uaapstatsdata.mapper.UaapGameMapper;
 import com.teamr.runardo.uaapstatsdata.mapper.UaapSeasonMapper;
 import com.teamr.runardo.uaapstatsdata.repository.*;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-@Repository
+@Service
 @AllArgsConstructor
+@Transactional
 public class UaapDataServiceImpl implements UaapDataService{
     private UaapSeasonRepository uaapSeasonRepository;
     private UaapGameRepository uaapGameRepository;
@@ -28,8 +31,6 @@ public class UaapDataServiceImpl implements UaapDataService{
     public UaapSeason saveUaapSeason(UaapSeasonDto uaapSeasonDto) {
         UaapSeason uaapSeason = new UaapSeason();
         UaapSeasonMapper.mapToUaapSeason(uaapSeasonDto, uaapSeason);
-//        UaapSeason uaapSeasonDb = findUaapSeasonById(uaapSeason.getId());
-//        uaapSeason.setUaapGames(uaapSeasonDb.getUaapGames());
         return uaapSeasonRepository.customSaveGame(uaapSeason);
     }
 
@@ -82,6 +83,10 @@ public class UaapDataServiceImpl implements UaapDataService{
 
     @Override
     public UaapGame saveUaapGame(UaapGameDto uaapGameDto) {
+        uaapSeasonRepository.findById(uaapGameDto.getUaapSeasonId()).orElseThrow(
+                () -> new ResourceNotFoundException(UaapSeason.class.toString(), "id", "uaapGameDto.getUaapSeasonId()")
+        );
+
         UaapGame uaapGame = new UaapGame();
         UaapGameMapper.mapToUaapGame(uaapGameDto, uaapGame);
 

@@ -14,34 +14,34 @@ import java.util.List;
 @FeignClient(name = "uaapstatsdata", url = "http://uaapstatsdata:8080")
 public interface UaapDataClient {
 
-    @GetMapping(value = "api/fetch/uaapseason", consumes = "application/json")
+    @GetMapping(value = "api/uaapseasons", consumes = "application/json")
     public ResponseEntity<List<UaapSeason>> fetchAllUaapSeason();
 
-    @PostMapping(value = "api/create/uaapseason", consumes = "application/json")
+    @PostMapping(value = "api/uaapseasons", consumes = "application/json")
     public ResponseEntity<ResponseDto> createUaapSeason(@RequestBody UaapSeasonDto uaapSeasonDto);
 
-    @DeleteMapping(value = "api/delete/uaapseason", consumes = "application/json")
-    public ResponseEntity<ResponseDto> deleteUaapSeasonById(@RequestParam String seasonId);
+    @DeleteMapping(value = "api/uaapseasons/{seasonId}", consumes = "application/json")
+    public ResponseEntity<ResponseDto> deleteUaapSeasonById(@PathVariable String seasonId);
 
-    @GetMapping("api/fetch/uaapseason/{seasonId}")
+    @GetMapping("api/uaapseasons/{seasonId}")
     public ResponseEntity<UaapSeason> fetchUaapSeasonById(@PathVariable String seasonId);
 
-    @PutMapping("api/update/uaapseason")
+    @PutMapping("api/uaapseasons")
     public ResponseEntity<ResponseDto> updateUaapSeason(@Valid @RequestBody UaapSeasonDto uaapSeasonDto);
 
-    @DeleteMapping("api/delete/uaapgame")
-    public ResponseEntity<ResponseDto> deleteUaapGameById(@RequestParam String gameId);
+    @DeleteMapping("api/uaapgames/{gameId}")
+    public ResponseEntity<ResponseDto> deleteUaapGameById(@PathVariable String gameId);
 
-    @PostMapping("api/create/uaapgame")
+    @PostMapping("api/uaapgames")
     public ResponseEntity<UaapGame> createUaapGame(@RequestBody UaapGameDto uaapGameDto);
 
-    @PutMapping("api/update/uaapgame")
+    @PutMapping("api/uaapgames")
     public ResponseEntity<ResponseDto> updateUaapGame(@RequestBody UaapGameDto uaapGameDto);
 
-    @PostMapping(value = "api/create/uaapstats")
+    @PostMapping(value = "api/uaapstats")
     public ResponseEntity<ResponseDto> createUaapStats(@RequestBody List<? extends PlayerStat> stat);
 
-    @GetMapping(value = "api/fetch/uaapstats")
+    @GetMapping(value = "api/uaapstats")
     public ResponseEntity<List<? extends PlayerStat>> fetchUaapStats(@RequestParam String gameId);
 
     }

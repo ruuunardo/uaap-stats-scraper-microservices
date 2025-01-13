@@ -2,6 +2,7 @@ package com.teamr.runardo.uaapdatawebapp.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,10 +21,12 @@ public class SecurityConfig{
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeHttpRequests(configurer -> configurer
+//                        .requestMatchers(HttpMethod.POST,"/uaap-games/save").hasRole("ADMIN")
                         .requestMatchers("/login", "/", "/error", "/uaap-games/home", "/images/**").permitAll()
                         .requestMatchers("/uaap-games", "/uaap-games/gamelist/**").permitAll()
                         .requestMatchers("/uaap-games/update/**", "/uaap-games/export-to-csv").authenticated()
-                        .requestMatchers("/uaap-games/delete/**", "/uaap-games/edit/**", "/uaap-games/show-form").hasRole("ADMIN")
+//                        .requestMatchers("/uaap-games/delete/**", "/uaap-games/edit/**", "/uaap-games/show-form", "/uaap-games/save").permitAll()
+                        .requestMatchers("/uaap-games/delete/**", "/uaap-games/edit/**", "/uaap-games/show-form", "/uaap-games/save").hasRole("ADMIN")
                         .requestMatchers("/uaap-games/checkUrl/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(form -> form
