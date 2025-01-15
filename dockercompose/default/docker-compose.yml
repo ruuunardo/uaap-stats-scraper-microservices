@@ -1,19 +1,19 @@
 services:
-  uaapdatadb:
-    container_name: uaapdatadb
-    ports:
-      - 3307:3306
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: uaapdatadb
-      MYSQL_USER: "user"
-      MYSQL_PASSWORD: "password"
-    extends:
-      file: common-config.yml
-      service: microservice-db-config
+#  uaapdatadb:
+#    container_name: uaapdatadb
+#    ports:
+#      - 3307:3306
+#    environment:
+#      MYSQL_ROOT_PASSWORD: root
+#      MYSQL_DATABASE: uaapdatadb
+#      MYSQL_USER: "user"
+#      MYSQL_PASSWORD: "password"
+#    extends:
+#      file: common-config.yml
+#      service: microservice-db-config
 
   configserver:
-    image: "runardo/configserver:v1"
+    image: "runardo/configserver:v2"
     container_name: configserver-ms
     ports:
       - "8071:8071"
@@ -27,23 +27,23 @@ services:
       file: common-config.yml
       service: network-deploy-service
 
-  eurekaserver:
-    image: "runardo/eurekaserver:v1"
-    container_name: eurekaserver-ms
-    ports:
-      - "8070:8070"
-    healthcheck:
-      test: "curl --fail --silent localhost:8070/actuator/health/readiness | grep UP || exit 1"
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 10s
-    extends:
-      file: common-config.yml
-      service: microservice-configserver-config
-
+#  eurekaserver:
+#    image: "runardo/eurekaserver:v1"
+#    container_name: eurekaserver-ms
+#    ports:
+#      - "8070:8070"
+#    healthcheck:
+#      test: "curl --fail --silent localhost:8070/actuator/health/readiness | grep UP || exit 1"
+#      interval: 10s
+#      timeout: 5s
+#      retries: 10
+#      start_period: 10s
+#    extends:
+#      file: common-config.yml
+#      service: microservice-configserver-config
+#
   statscraper:
-    image: "runardo/uaapstatscraper:v1"
+    image: "runardo/uaapstatscraper:v2"
     container_name: uaapstatscraper-ms
     ports:
       - "8081:8081"
@@ -55,47 +55,50 @@ services:
       start_period: 10s
     extends:
       file: common-config.yml
-      service: microservice-eurekaserver-config
-
-  statdata:
-    image: "runardo/uaapstatsdata:v1"
-    container_name: uaapstatsdata-ms
-    ports:
-      - "8080:8080"
-    healthcheck:
-      test: "curl --fail --silent localhost:8080/actuator/health/readiness | grep UP || exit 1"
-      interval: 20s
-      timeout: 5s
-      retries: 10
-      start_period: 10s
-    depends_on:
-      uaapdatadb:
-        condition: service_healthy
-    extends:
-      file: common-config.yml
-      service: microservice-eurekaserver-config
-    environment:
+#      service: microservice-eurekaserver-config
+      service: microservice-configserver-config
+#
+#  statdata:
+#    image: "runardo/uaapstatsdata:v1"
+#    container_name: uaapstatsdata-ms
+#    ports:
+#      - "8080:8080"
+#    healthcheck:
+#      test: "curl --fail --silent localhost:8080/actuator/health/readiness | grep UP || exit 1"
+#      interval: 20s
+#      timeout: 5s
+#      retries: 10
+#      start_period: 10s
+#    depends_on:
+#      uaapdatadb:
+#        condition: service_healthy
+#    extends:
+#      file: common-config.yml
+#      service: microservice-eurekaserver-config
+#    environment:
+##      SPRING_DATASOURCE_URL: "jdbc:mysql://host.docker.internal:3306/test"
+##      SPRING_DATASOURCE_USERNAME: "springstudent"
+##      SPRING_DATASOURCE_PASSWORD: "springstudent"
+#      SPRING_DATASOURCE_URL: "jdbc:mysql://uaapdatadb:3306/uaapdatadb"
+#      SPRING_SQL_INIT_MODE: "always"
+#      SPRING_DATASOURCE_USERNAME: "user"
+#      SPRING_DATASOURCE_PASSWORD: "password"
+#  webapp:
+#    image: "runardo/uaapdatawebapp:v2"
+#    container_name: uaapdatawebapp-ms
+#    ports:
+#      - "9090:9090"
+#    healthcheck:
+#      test: "curl --fail --silent localhost:9090/actuator/health/readiness | grep UP || exit 1"
+#      interval: 20s
+#      timeout: 5s
+#      retries: 10
+#      start_period: 10s
+#    extends:
+#      file: common-config.yml
+#      service: microservice-configserver-config
+#    environment:
 #      SPRING_DATASOURCE_URL: "jdbc:mysql://host.docker.internal:3306/test"
-#      SPRING_DATASOURCE_USERNAME: "springstudent"
-#      SPRING_DATASOURCE_PASSWORD: "springstudent"
-      SPRING_DATASOURCE_URL: "jdbc:mysql://uaapdatadb:3306/uaapdatadb"
-      SPRING_SQL_INIT_MODE: "always"
-      SPRING_DATASOURCE_USERNAME: "user"
-      SPRING_DATASOURCE_PASSWORD: "password"
-  webapp:
-    image: "runardo/uaapdatawebapp:v1"
-    container_name: uaapdatawebapp-ms
-    ports:
-      - "9090:9090"
-    healthcheck:
-      test: "curl --fail --silent localhost:9090/actuator/health/readiness | grep UP || exit 1"
-      interval: 20s
-      timeout: 5s
-      retries: 10
-      start_period: 10s
-    extends:
-      file: common-config.yml
-      service: microservice-eurekaserver-config
 
 networks:
   uaapdata:
